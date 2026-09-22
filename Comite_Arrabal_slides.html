@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Comité de seguimiento · Arrabal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,440;9..144,600&family=Inter:wght@200;300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --bg:#FFFFFF; --bg-deep:#F4F6FB; --surface:#F4F6FB; --surface-2:#EAEFF8;
+    --hairline:rgba(12,35,60,.09); --hairline-strong:rgba(12,35,60,.18);
+    --ink:#0C233C; --text-mid:#3F516B; --text-low:#6A7890; --text-faint:#93A0B8;
+    --kpmg:#00338D; --kpmg-bright:#1E49E2; --kpmg-tint:#EAF0FD;
+    --red:#A6192E; --red-tint:#F9E7EA;
+    --amber:#9A6700; --amber-tint:#FBF1DD;
+    --green:#0E7A4F; --green-tint:#E7F4EE;
+    --gray:#6A7890;
+    --ease: cubic-bezier(.23,1,.32,1);
+    --f-body:"Inter",-apple-system,"Segoe UI",Arial,sans-serif;
+    --f-mono:"IBM Plex Mono",Consolas,monospace;
+    --f-display:"Fraunces","Georgia",serif;
+    --rail-w:56px;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:.001ms !important; transition-duration:.001ms !important;}
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;background:var(--bg);}
+  body{
+    font-family:var(--f-body); color:var(--ink); font-weight:400;
+    scroll-snap-type:y mandatory; overflow-y:scroll; overflow-x:hidden;
+    scrollbar-width:none;
+  }
+  body::-webkit-scrollbar{display:none;}
+
+  .slide{
+    position:relative; min-height:100vh; width:100%;
+    scroll-snap-align:start; scroll-snap-stop:always;
+    display:flex; flex-direction:column; justify-content:center;
+    padding:7vh 6vw 7vh calc(var(--rail-w) + 6vw); background:var(--bg);
+    border-bottom:1px solid var(--hairline);
+  }
+  .slide-inner{max-width:1180px; width:100%; margin:0 auto;}
+
+  /* ── Cabecera de sección ── */
+  .eyebrow{
+    font:500 11px/1 var(--f-mono); letter-spacing:.16em; text-transform:uppercase;
+    color:var(--kpmg); margin:0 0 18px; display:flex; align-items:center; gap:10px;
+    opacity:0; transform:translateY(10px); transition:opacity .5s var(--ease), transform .5s var(--ease);
+  }
+  .eyebrow::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--kpmg);}
+  .slide-title{
+    font:440 clamp(2.3rem,4vw,3.4rem)/1.08 var(--f-display); font-style:normal; letter-spacing:-.01em;
+    color:var(--ink); margin:0 0 8px; max-width:18ch;
+    opacity:0; transform:translateY(14px); transition:opacity .6s .05s var(--ease), transform .6s .05s var(--ease);
+  }
+  .slide-sub{
+    font:400 16px/1.55 var(--f-body); color:var(--text-mid); max-width:64ch; margin:0 0 40px;
+    opacity:0; transform:translateY(14px); transition:opacity .6s .1s var(--ease), transform .6s .1s var(--ease);
+  }
+  .slide.in .eyebrow, .slide.in .slide-title, .slide.in .slide-sub{opacity:1; transform:translateY(0);}
+
+  .reveal{opacity:0; transform:translateY(16px); transition:opacity .5s var(--ease), transform .5s var(--ease);}
+  .slide.in .reveal{opacity:1; transform:translateY(0);}
+  .slide.in .r1{transition-delay:.08s;} .slide.in .r2{transition-delay:.14s;}
+  .slide.in .r3{transition-delay:.20s;} .slide.in .r4{transition-delay:.26s;}
+
+  /* ── Raíl de índice: navegación + firma del diseño ── */
+  .rail{
+    position:fixed; left:0; top:0; bottom:0; width:var(--rail-w); z-index:20;
+    display:flex; flex-direction:column; align-items:center; justify-content:space-evenly;
+  }
+  .rail-line{position:absolute; left:50%; top:9%; bottom:9%; width:1px; background:var(--hairline-strong); transform:translateX(-50%);}
+  .rail-item{
+    position:relative; z-index:1; background:none; border:none; cursor:pointer;
+    padding:12px 6px; display:flex; flex-direction:column; align-items:center; gap:9px; -webkit-tap-highlight-color:transparent;
+  }
+  .rail-num{font:600 10px/1 var(--f-mono); letter-spacing:.05em; color:var(--text-faint); transition:color .3s var(--ease);}
+  .rail-dot{width:6px; height:6px; border-radius:50%; background:var(--bg); border:1.5px solid var(--hairline-strong); transition:background .3s var(--ease), border-color .3s var(--ease), transform .3s var(--ease);}
+  .rail-item.active .rail-num{color:var(--kpmg);}
+  .rail-item.active .rail-dot{background:var(--kpmg); border-color:var(--kpmg); transform:scale(1.35);}
+  .rail-item:hover .rail-num{color:var(--kpmg-bright);}
+  .rail-item:focus-visible{outline:2px solid var(--kpmg-bright); outline-offset:3px; border-radius:4px;}
+  .rail-label{
+    position:absolute; bottom:26px; left:50%; transform:translateX(-50%);
+    writing-mode:vertical-rl; font:600 9.5px/1 var(--f-mono); letter-spacing:.16em;
+    color:var(--text-faint); white-space:nowrap; transition:color .3s var(--ease);
+  }
+
+  .brand{
+    position:fixed; right:5vw; top:5vh; z-index:20;
+    display:flex; align-items:baseline; gap:8px;
+  }
+  .brand .wm{font:800 13px/1 var(--f-body); letter-spacing:.01em; color:var(--kpmg);}
+  .brand .role{font:500 11px/1 var(--f-body); color:var(--text-faint);}
+
+  /* ── Portada ── */
+  .cover{align-items:flex-start; justify-content:space-between;}
+  .cover-top{
+    display:flex; align-items:center; justify-content:space-between; width:100%;
+    padding-bottom:22px; border-bottom:1px solid var(--hairline);
+    opacity:0; transform:translateY(-8px); transition:opacity .5s var(--ease), transform .5s var(--ease);
+  }
+  .slide.in .cover-top{opacity:1; transform:translateY(0);}
+  .kpmg-wordmark{font:800 22px/1 var(--f-body); letter-spacing:.01em; color:var(--kpmg);}
+  .cover-tag{font:500 11px/1 var(--f-mono); letter-spacing:.14em; text-transform:uppercase; color:var(--text-faint);}
+
+  .cover-body{padding-top:8vh;}
+  .cover-logo{
+    margin:0 0 22px; opacity:0; transform:translateY(20px);
+    transition:opacity .7s .1s var(--ease), transform .7s .1s var(--ease);
+  }
+  .slide.in .cover-logo{opacity:1; transform:translateY(0);}
+  .cover-logo img{
+    display:block; width:clamp(260px, 27vw, 400px); height:auto;
+  }
+  .cover-body .cover-sub{
+    font:500 clamp(1.3rem,2.2vw,1.7rem)/1.2 var(--f-body); color:var(--kpmg); margin:0 0 0; letter-spacing:-.005em;
+    opacity:0; transform:translateY(16px); transition:opacity .6s .18s var(--ease), transform .6s .18s var(--ease);
+  }
+  .slide.in .cover-body .cover-sub{opacity:1; transform:translateY(0);}
+
+  .meta-row{
+    display:flex; gap:56px; margin-top:auto; padding-top:28px; border-top:1px solid var(--hairline); width:100%;
+    opacity:0; transform:translateY(14px); transition:opacity .6s .26s var(--ease), transform .6s .26s var(--ease);
+  }
+  .slide.in .meta-row{opacity:1; transform:translateY(0);}
+  .meta-row dt{font:500 10px/1 var(--f-mono); letter-spacing:.14em; text-transform:uppercase; color:var(--text-faint); margin-bottom:8px;}
+  .meta-row dd{margin:0; font:600 15px/1.3 var(--f-body); color:var(--ink);}
+
+  /* ── Estado: tabla refinada ── */
+  .status-table{width:100%; border-collapse:collapse;}
+  .status-table thead th{
+    text-align:left; font:500 10.5px/1 var(--f-mono); letter-spacing:.1em; text-transform:uppercase;
+    color:var(--text-faint); padding:0 16px 14px 0; border-bottom:1px solid var(--hairline-strong); font-weight:500;
+  }
+  .status-table tbody tr{border-bottom:1px solid var(--hairline);}
+  .status-table tbody td{padding:20px 16px 20px 0; vertical-align:middle;}
+  .status-table tbody tr:last-child{border-bottom:1px solid var(--hairline-strong);}
+  .code-cell{font:700 15px/1 var(--f-mono); color:var(--kpmg); letter-spacing:.01em;}
+  .name-cell{font:600 15px/1.35 var(--f-body); color:var(--ink); max-width:230px;}
+  .desc-cell{font:400 13.5px/1.5 var(--f-body); color:var(--text-mid); max-width:340px;}
+
+  .tag{
+    display:inline-flex; align-items:center; gap:7px;
+    font:600 11px/1 var(--f-mono); letter-spacing:.06em; text-transform:uppercase;
+    padding:7px 12px; border-radius:5px; white-space:nowrap; border:1px solid transparent;
+  }
+  .tag::before{content:"";width:6px;height:6px;border-radius:50%;flex:none;}
+  .tag.riesgo{background:var(--red-tint); color:var(--red); border-color:rgba(166,25,46,.22);}
+  .tag.riesgo::before{background:var(--red);}
+  .tag.desviacion{background:var(--amber-tint); color:var(--amber); border-color:rgba(154,103,0,.24);}
+  .tag.desviacion::before{background:var(--amber);}
+  .tag.plan{background:var(--green-tint); color:var(--green); border-color:rgba(14,122,79,.22);}
+  .tag.plan::before{background:var(--green);}
+  .tag.pendiente{background:transparent; color:var(--text-low); border:1px dashed var(--hairline-strong);}
+  .tag.pendiente::before{background:var(--text-faint);}
+
+  .prog{display:flex; align-items:center; gap:10px; min-width:120px;}
+  .prog-track{flex:1; height:3px; background:var(--hairline-strong); border-radius:2px; overflow:hidden;}
+  .prog-fill{height:100%; background:var(--kpmg); border-radius:2px; width:0; transition:width 1s .3s var(--ease);}
+  .slide.in .prog-fill{width:var(--w);}
+  .prog-num{font:700 13px/1 var(--f-mono); color:var(--ink); min-width:34px; text-align:right; font-variant-numeric:tabular-nums;}
+
+  .foot-note{
+    margin-top:28px; font:400 12.5px/1.5 var(--f-body); color:var(--text-low); font-style:italic; max-width:74ch;
+  }
+
+  /* ── Calendario ── */
+  .cal{position:relative; padding-top:8px;}
+  .cal-axis{display:flex; position:relative; height:26px; margin-bottom:8px; border-bottom:1px solid var(--hairline);}
+  .cal-axis span{
+    position:absolute; top:0; font:500 10.5px/1 var(--f-mono); letter-spacing:.1em; color:var(--text-faint);
+    transform:translateX(-50%);
+  }
+  .cal-row{display:grid; grid-template-columns:110px 1fr; align-items:center; gap:18px; padding:18px 0; border-bottom:1px solid var(--hairline);}
+  .cal-row:last-child{border-bottom:none;}
+  .cal-code{font:700 14px/1.3 var(--f-mono); color:var(--kpmg);}
+  .cal-track{position:relative; height:34px;}
+  .cal-grid{position:absolute; inset:0;}
+  .cal-grid i{position:absolute; top:0; bottom:0; width:1px; background:var(--hairline); font-style:normal;}
+  .cal-bar-bg{position:absolute; top:13px; height:8px; border-radius:5px; background:var(--surface-2); border:1px solid var(--hairline);}
+  .cal-bar-fill{position:absolute; top:13px; height:8px; border-radius:5px; background:var(--kpmg); width:0; transition:width 1.1s .3s var(--ease);}
+  .slide.in .cal-bar-fill{width:var(--w);}
+  .cal-pct{position:absolute; top:26px; font:700 11px/1 var(--f-mono); color:var(--text-mid);}
+  .cal-flag{position:absolute; top:7px; width:15px; height:15px; margin-left:-7.5px; transform:rotate(45deg); background:var(--amber); border:2px solid var(--bg); border-radius:2px;}
+  .cal-empty{font:400 13px/1 var(--f-body); color:var(--text-faint); font-style:italic;}
+  .cal-approx{position:absolute; top:13px; height:8px; border-radius:5px; border:1.5px dashed var(--hairline-strong); background:transparent;}
+  .cal-approx-label{position:absolute; top:26px; font:500 10.5px/1 var(--f-mono); color:var(--text-faint); font-style:italic; text-align:center; white-space:nowrap;}
+  .cal-today{position:absolute; top:-6px; bottom:0; width:1.5px; background:var(--kpmg-bright); z-index:6;}
+  .cal-today span{
+    position:absolute; top:-38px; right:1px; left:auto; z-index:7;
+    font:700 9.5px/1 var(--f-mono); letter-spacing:.08em; color:#fff; white-space:nowrap;
+    background:var(--kpmg-bright); padding:4px 8px; border-radius:4px;
+  }
+  .cal-today span::after{
+    content:""; position:absolute; right:6px; top:100%;
+    border:4px solid transparent; border-top-color:var(--kpmg-bright);
+  }
+  .cal-month-shade{position:absolute; top:-9px; bottom:-9px; background:var(--surface); z-index:0; border-radius:4px;}
+  .cal-month-shade span{
+    position:absolute; top:2px; left:8px;
+    font:600 9px/1 var(--f-mono); letter-spacing:.1em; text-transform:uppercase; color:var(--text-faint); white-space:nowrap;
+  }
+  .legend{display:flex; gap:28px; margin-top:36px; flex-wrap:wrap;}
+  .legend-item{display:flex; align-items:center; gap:9px; font:400 12.5px/1 var(--f-body); color:var(--text-mid);}
+  .legend-swatch{width:18px; height:7px; border-radius:4px;}
+
+  /* ── Comentarios ── */
+  .comments{display:flex; flex-direction:column;}
+  .comment-row{display:grid; grid-template-columns:190px 1fr; gap:28px; padding:26px 0; border-bottom:1px solid var(--hairline);}
+  .comment-row:last-child{border-bottom:none;}
+  .comment-head{display:flex; align-items:flex-start; gap:12px;}
+  .comment-bar{width:2px; align-self:stretch; border-radius:1px; flex:none; margin-top:3px;}
+  .comment-code{font:700 15px/1.2 var(--f-mono); color:var(--kpmg); margin-bottom:4px;}
+  .comment-name{font:400 12px/1.4 var(--f-body); color:var(--text-faint);}
+  .comment-text{font:400 14.5px/1.65 var(--f-body); color:var(--text-mid); max-width:74ch;}
+  .comment-text em{color:var(--text-low); font-style:italic;}
+  .comment-text strong{color:var(--ink); font-weight:600;}
+
+  @media (max-width:820px){
+    .slide{padding:9vh 6vw;}
+    .meta-row{flex-wrap:wrap; gap:24px 40px;}
+    .status-table{font-size:13px;}
+    .desc-cell, .name-cell{max-width:none;}
+    .comment-row{grid-template-columns:1fr; gap:10px;}
+    .rail, .brand{display:none;}
+  }
+  @media print{
+    body{overflow:visible;}
+    .slide{min-height:auto; height:100vh; page-break-after:always; scroll-snap-align:none; padding-left:6vw;}
+    .rail, .brand{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="brand"><span class="wm">KPMG</span><span class="role">· PMO</span></div>
+<nav class="rail" id="rail" aria-label="Navegación de diapositivas">
+  <div class="rail-line"></div>
+  <button class="rail-item" data-i="0"><span class="rail-num">00</span><span class="rail-dot"></span></button>
+  <button class="rail-item" data-i="1"><span class="rail-num">01</span><span class="rail-dot"></span></button>
+  <button class="rail-item" data-i="2"><span class="rail-num">02</span><span class="rail-dot"></span></button>
+  <button class="rail-item" data-i="3"><span class="rail-num">03</span><span class="rail-dot"></span></button>
+  <span class="rail-label" id="railLabel">PORTADA</span>
+</nav>
+
+<!-- ═══ 0 · PORTADA ═══ -->
+<section class="slide cover" data-slide>
+  <div class="slide-inner" style="display:flex; flex-direction:column; min-height:56vh;">
+    <div class="cover-top">
+      <span class="kpmg-wordmark">KPMG</span>
+      <span class="cover-tag">Comité de seguimiento · PMO</span>
+    </div>
+    <div class="cover-body">
+      <h1 class="cover-logo"><img src="assets/logo-arrabal.svg" alt="Asociación Arrabal"></h1>
+      <p class="cover-sub">Comité de seguimiento</p>
+    </div>
+    <dl class="meta-row">
+      <div><dt>Periodo</dt><dd>Ago — Sept 2026</dd></div>
+      <div><dt>Fecha del comité</dt><dd>28 septiembre 2026</dd></div>
+      <div><dt>Presenta</dt><dd>PMO</dd></div>
+      <div><dt>Fuente de datos</dt><dd>Report semanal · 11 sept.</dd></div>
+    </dl>
+  </div>
+</section>
+
+<!-- ═══ 1 · ESTADO ═══ -->
+<section class="slide" data-slide>
+  <div class="slide-inner">
+    <p class="eyebrow">01 · Estado</p>
+    <h2 class="slide-title">Estado de las iniciativas</h2>
+    <p class="slide-sub">Cuatro iniciativas en curso, más las formaciones previstas para octubre. El estado refleja el avance del desarrollo, no solo el campo "Estado" del reporte de origen.</p>
+
+    <table class="status-table reveal r1">
+      <thead>
+        <tr><th>Código</th><th>Iniciativa</th><th>De qué va</th><th>Estado</th><th>Avance</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="code-cell">RPR03</td>
+          <td class="name-cell">Recopilación automática de nuevos proyectos</td>
+          <td class="desc-cell">Automatiza la captación de convocatorias y ayudas desde fuentes públicas y privadas</td>
+          <td><span class="tag desviacion">En proceso</span></td>
+          <td><div class="prog"><div class="prog-track"><div class="prog-fill" style="--w:64%"></div></div><span class="prog-num">64%</span></div></td>
+        </tr>
+        <tr>
+          <td class="code-cell">RPR04</td>
+          <td class="name-cell">Overview económico y administrativo</td>
+          <td class="desc-cell">Cuadro de mando económico-administrativo accesible y trazable para los proyectos</td>
+          <td><span class="tag plan">En plan</span></td>
+          <td><div class="prog"><div class="prog-track"><div class="prog-fill" style="--w:93%"></div></div><span class="prog-num">93%</span></div></td>
+        </tr>
+        <tr>
+          <td class="code-cell">RG10</td>
+          <td class="name-cell">Optimización y documentación del CRM</td>
+          <td class="desc-cell">Mejora el modelo CRM y documenta su uso para el equipo</td>
+          <td><span class="tag plan">En plan</span></td>
+          <td><div class="prog"><div class="prog-track"><div class="prog-fill" style="--w:94%"></div></div><span class="prog-num">94%</span></div></td>
+        </tr>
+        <tr>
+          <td class="code-cell">RC08</td>
+          <td class="name-cell">Automatización para el seguimiento de usuarios</td>
+          <td class="desc-cell">[por confirmar]</td>
+          <td><span class="tag pendiente">Por confirmar</span></td>
+          <td><span style="color:var(--text-faint); font:700 13px var(--f-mono);">—</span></td>
+        </tr>
+        <tr>
+          <td class="code-cell">—</td>
+          <td class="name-cell">Formaciones a departamentos</td>
+          <td class="desc-cell">Sesiones de formación para los departamentos implicados en las iniciativas</td>
+          <td><span class="tag pendiente">Por confirmar</span></td>
+          <td><span style="color:var(--text-faint); font:700 13px var(--f-mono);">—</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="foot-note reveal r2">RPR03: el desarrollo avanza según lo previsto; los dos puntos pendientes son de entorno/validación con el cliente (no de desarrollo) y se espera resolverlos a fecha del 23 de septiembre. RPR04 y RG10: el desarrollo está esencialmente cerrado, queda la validación final como único entregable pendiente.</p>
+  </div>
+</section>
+
+<!-- ═══ 2 · CALENDARIO ═══ -->
+<section class="slide" data-slide>
+  <div class="slide-inner">
+    <p class="eyebrow">02 · Calendario</p>
+    <h2 class="slide-title">Calendario</h2>
+    <p class="slide-sub">Ejecutado frente a previsto por iniciativa. Los marcadores en ámbar señalan los dos puntos de RPR03 pendientes de entorno/validación con el cliente.</p>
+
+    <div class="cal reveal r1">
+      <div class="cal-axis" id="calAxis"></div>
+      <div id="calRows"></div>
+    </div>
+
+    <div class="legend reveal r2">
+      <div class="legend-item"><span class="legend-swatch" style="background:var(--kpmg)"></span>Ejecutado</div>
+      <div class="legend-item"><span class="legend-swatch" style="background:var(--surface-2); border:1px solid var(--hairline)"></span>Previsto</div>
+      <div class="legend-item"><span style="width:9px;height:9px;background:var(--amber);transform:rotate(45deg);display:inline-block;border-radius:1px;"></span>Pendiente de entorno/validación (resolución prevista 23 sept.)</div>
+      <div class="legend-item"><span class="legend-swatch" style="background:var(--kpmg-bright); width:2px;"></span>Comité · 28 sept.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 3 · COMENTARIOS ═══ -->
+<section class="slide" data-slide>
+  <div class="slide-inner">
+    <p class="eyebrow">03 · Detalle</p>
+    <h2 class="slide-title">Comentarios sobre las iniciativas</h2>
+    <p class="slide-sub">Qué ha pasado desde el último comité, qué queda pendiente y qué necesita decisión — el matiz que no cabe en la tabla de estado.</p>
+
+    <div class="comments reveal r1">
+      <div class="comment-row">
+        <div class="comment-head">
+          <div class="comment-bar" style="background:var(--amber)"></div>
+          <div><div class="comment-code">RPR03</div><div class="comment-name">Recopilación automática de nuevos proyectos</div></div>
+        </div>
+        <div class="comment-text">El desarrollo va según lo previsto. Quedan dos temas por resolver con el cliente —el acceso al entorno y la conexión con Salesforce—, no son problemas de desarrollo. <strong>Se espera tenerlos listos el 23 de septiembre.</strong> <em>No hace falta ninguna decisión del comité; se informará en la próxima sesión.</em></div>
+      </div>
+      <div class="comment-row">
+        <div class="comment-head">
+          <div class="comment-bar" style="background:var(--green)"></div>
+          <div><div class="comment-code">RPR04</div><div class="comment-name">Overview económico y administrativo</div></div>
+        </div>
+        <div class="comment-text">El desarrollo está prácticamente terminado. Solo falta la validación final con los equipos, que va al 70%. <em>No hay ningún bloqueo: solo queda cerrar la fecha de esa validación.</em></div>
+      </div>
+      <div class="comment-row">
+        <div class="comment-head">
+          <div class="comment-bar" style="background:var(--green)"></div>
+          <div><div class="comment-code">RG10</div><div class="comment-name">Optimización y documentación del CRM</div></div>
+        </div>
+        <div class="comment-text">Igual que RPR04: el desarrollo está terminado y solo falta la validación final con el cliente, que va al 55%. <em>Pendiente de cerrar esa validación con el cliente.</em></div>
+      </div>
+      <div class="comment-row">
+        <div class="comment-head">
+          <div class="comment-bar" style="background:var(--gray)"></div>
+          <div><div class="comment-code">RC08</div><div class="comment-name">Automatización para el seguimiento de usuarios</div></div>
+        </div>
+        <div class="comment-text" style="color:var(--text-faint); font-style:italic;">Todavía sin información: no aparece en el último informe (11 de septiembre). No hay plan de tareas ni fecha de inicio.</div>
+      </div>
+      <div class="comment-row">
+        <div class="comment-head">
+          <div class="comment-bar" style="background:var(--gray)"></div>
+          <div><div class="comment-code">Formaciones</div><div class="comment-name">Formaciones a departamentos</div></div>
+        </div>
+        <div class="comment-text">Formación para los departamentos implicados en las iniciativas. <strong>Se hará en octubre de 2026</strong>, aunque las fechas exactas todavía no están cerradas. <em>Se compartirá el calendario en cuanto esté definido.</em></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  // ── Navegación: raíl de índice, etiqueta activa, teclado ──
+  var slides = Array.prototype.slice.call(document.querySelectorAll('[data-slide]'));
+  var railItems = Array.prototype.slice.call(document.querySelectorAll('.rail-item'));
+  var railLabel = document.getElementById('railLabel');
+  var labels = ['PORTADA','01 · ESTADO','02 · CALENDARIO','03 · COMENTARIOS'];
+
+  railItems.forEach(function(btn, i){
+    btn.addEventListener('click', function(){ slides[i].scrollIntoView({behavior:'smooth'}); });
+  });
+
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      var idx = slides.indexOf(e.target);
+      if(e.isIntersecting && e.intersectionRatio > 0.55){
+        e.target.classList.add('in');
+        railItems.forEach(function(b,i){ b.classList.toggle('active', i===idx); });
+        railLabel.textContent = labels[idx] || '';
+      }
+    });
+  }, {threshold:[0,.55,1]});
+  slides.forEach(function(s){ io.observe(s); });
+
+  document.addEventListener('keydown', function(e){
+    var cur = slides.findIndex(function(s){ return s.classList.contains('in'); });
+    if(cur === -1) cur = 0;
+    if(e.key==='ArrowDown' || e.key==='PageDown' || e.key===' '){
+      e.preventDefault();
+      if(slides[cur+1]) slides[cur+1].scrollIntoView({behavior:'smooth'});
+    } else if(e.key==='ArrowUp' || e.key==='PageUp'){
+      e.preventDefault();
+      if(slides[cur-1]) slides[cur-1].scrollIntoView({behavior:'smooth'});
+    }
+  });
+
+  // ── Calendario: construido desde los mismos datos reales del deck ──
+  var HOY = new Date(2026,8,28); // fecha del comité
+  var AXIS_START = new Date(2026,6,1), AXIS_END = new Date(2026,10,5);
+  var totalDays = (AXIS_END - AXIS_START) / 86400000;
+  function pct(d){ return ((d-AXIS_START)/86400000) / totalDays * 100; }
+
+  var months = [[new Date(2026,6,1),'JUL'],[new Date(2026,7,1),'AGO'],[new Date(2026,8,1),'SEP'],[new Date(2026,9,1),'OCT']];
+  var axis = document.getElementById('calAxis');
+  months.forEach(function(m){
+    var s = document.createElement('span');
+    s.textContent = m[1];
+    s.style.left = pct(m[0]) + '%';
+    // "OCT" cae a solo 3 días de la línea del comité (28 sept.); se desplaza
+    // un poco a la derecha para que su etiqueta no se pegue a la pastilla.
+    if(m[1] === 'OCT'){ s.style.marginLeft = '18px'; }
+    axis.appendChild(s);
+  });
+
+  var data = [
+    {cod:'RPR03', ini:new Date(2026,6,14), fin:new Date(2026,9,9), avance:.64, flags:[new Date(2026,6,22), new Date(2026,8,4)]},
+    {cod:'RPR04', ini:new Date(2026,6,27), fin:new Date(2026,7,28), avance:.93, flags:[]},
+    {cod:'RG10',  ini:new Date(2026,6,15), fin:new Date(2026,7,28), avance:.94, flags:[]},
+    {cod:'RC08',  ini:null, fin:null, avance:null, flags:[]},
+    {cod:'Formaciones', ini:null, fin:null, avance:null, flags:[], mesAprox:[new Date(2026,9,1), new Date(2026,9,31)]}
+  ];
+
+  var OCT_START = new Date(2026,9,1), OCT_END = new Date(2026,10,1);
+  var octX0 = pct(OCT_START), octX1 = pct(OCT_END);
+
+  var rows = document.getElementById('calRows');
+  data.forEach(function(d, rowIdx){
+    var row = document.createElement('div');
+    row.className = 'cal-row';
+    var codeEl = document.createElement('div');
+    codeEl.className = 'cal-code'; codeEl.textContent = d.cod;
+    row.appendChild(codeEl);
+
+    var track = document.createElement('div');
+    track.className = 'cal-track';
+
+    var shade = document.createElement('div');
+    shade.className='cal-month-shade'; shade.style.left=octX0+'%'; shade.style.width=(octX1-octX0)+'%';
+    if(rowIdx===0){ var shadeLbl=document.createElement('span'); shadeLbl.textContent='Octubre'; shade.appendChild(shadeLbl); }
+    track.appendChild(shade);
+
+    var grid = document.createElement('div'); grid.className = 'cal-grid';
+    months.forEach(function(m){
+      var i = document.createElement('i'); i.style.left = pct(m[0])+'%'; grid.appendChild(i);
+    });
+    track.appendChild(grid);
+
+    if(d.ini){
+      var x0 = pct(d.ini), x1 = pct(d.fin), w = x1-x0;
+      var bg = document.createElement('div');
+      bg.className='cal-bar-bg'; bg.style.left=x0+'%'; bg.style.width=w+'%';
+      track.appendChild(bg);
+      var fill = document.createElement('div');
+      fill.className='cal-bar-fill'; fill.style.left=x0+'%'; fill.style.setProperty('--w',(w*d.avance)+'%');
+      track.appendChild(fill);
+      var pctLabel = document.createElement('div');
+      pctLabel.className='cal-pct'; pctLabel.style.left=x0+'%'; pctLabel.textContent=Math.round(d.avance*100)+'%';
+      track.appendChild(pctLabel);
+      d.flags.forEach(function(r){
+        var m = document.createElement('div');
+        m.className='cal-flag'; m.style.left = pct(r)+'%';
+        track.appendChild(m);
+      });
+    } else if(d.mesAprox){
+      var mx0 = pct(d.mesAprox[0]), mx1 = pct(d.mesAprox[1]);
+      var approx = document.createElement('div');
+      approx.className='cal-approx'; approx.style.left=mx0+'%'; approx.style.width=(mx1-mx0)+'%';
+      track.appendChild(approx);
+      var approxLbl = document.createElement('div');
+      approxLbl.className='cal-approx-label'; approxLbl.style.left=mx0+'%'; approxLbl.style.width=(mx1-mx0)+'%';
+      approxLbl.textContent='Octubre · fechas por definir';
+      track.appendChild(approxLbl);
+    } else {
+      var empty = document.createElement('div');
+      empty.className='cal-empty'; empty.style.position='absolute'; empty.style.top='9px';
+      empty.textContent='Sin fechas registradas — [por confirmar]';
+      track.appendChild(empty);
+    }
+
+    var todayLine = document.createElement('div');
+    todayLine.className='cal-today'; todayLine.style.left = pct(HOY)+'%';
+    track.appendChild(todayLine);
+
+    row.appendChild(track);
+    rows.appendChild(row);
+  });
+  // Etiqueta "hoy" solo en la primera fila
+  var firstToday = rows.querySelector('.cal-today');
+  if(firstToday){ var lbl=document.createElement('span'); lbl.textContent='COMITÉ'; firstToday.appendChild(lbl); }
+})();
+</script>
+</body>
+</html>
