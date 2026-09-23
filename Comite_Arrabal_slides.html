@@ -169,7 +169,7 @@
   }
 
   /* ── Calendario ── */
-  .cal-flag{position:absolute; top:7px; width:15px; height:15px; margin-left:-7.5px; z-index:5;}
+  .cal-flag{position:absolute; top:7px; width:15px; height:15px; margin-left:-7.5px; z-index:5; cursor:pointer;}
   .cal-flag-dot{
     position:absolute; inset:0; transform:rotate(45deg);
     background:var(--amber); border:2px solid var(--bg); border-radius:2px;
@@ -193,7 +193,7 @@
     content:''; position:absolute; bottom:100%; left:50%; transform:translateX(-50%);
     border:6px solid transparent; border-bottom-color:var(--ink);
   }
-  .slide.in .cal-flag-tip{
+  .cal-flag.open .cal-flag-tip{
     opacity:1; transform:translateX(-50%) translateY(0) scale(1) rotate(0deg);
   }
   .cal{position:relative; padding-top:8px;}
@@ -370,7 +370,7 @@
   <div class="slide-inner">
     <p class="eyebrow">02 · Calendario</p>
     <h2 class="slide-title">Calendario</h2>
-    <p class="slide-sub">Ejecutado frente a previsto por iniciativa. Los marcadores en ámbar señalan los dos puntos pendientes de RPR03 — pasa el cursor sobre cada rombo para ver el detalle.</p>
+    <p class="slide-sub">Ejecutado frente a previsto por iniciativa. Los marcadores en ámbar señalan los dos puntos pendientes de RPR03 — pulsa cada rombo para ver el detalle.</p>
 
     <div class="cal reveal r1">
       <div class="cal-axis" id="calAxis"></div>
@@ -380,7 +380,7 @@
     <div class="legend reveal r2">
       <div class="legend-item"><span class="legend-swatch" style="background:var(--kpmg)"></span>Ejecutado</div>
       <div class="legend-item"><span class="legend-swatch" style="background:var(--surface-2); border:1px solid var(--hairline)"></span>Previsto</div>
-      <div class="legend-item"><span style="width:9px;height:9px;background:var(--amber);transform:rotate(45deg);display:inline-block;border-radius:1px;"></span>Pendiente — ver detalle al pasar el cursor</div>
+      <div class="legend-item"><span style="width:9px;height:9px;background:var(--amber);transform:rotate(45deg);display:inline-block;border-radius:1px;"></span>Pendiente — pulsa para ver el detalle</div>
       <div class="legend-item"><span class="legend-swatch" style="background:var(--kpmg-bright); width:2px;"></span>Comité · 28 sept.</div>
     </div>
   </div>
@@ -537,6 +537,10 @@
       d.flags.forEach(function(r, flagIdx){
         var m = document.createElement('div');
         m.className='cal-flag'; m.style.left = pct(r.date)+'%';
+        m.tabIndex = 0;
+        m.setAttribute('role','button');
+        m.setAttribute('aria-expanded','false');
+        m.setAttribute('aria-label', r.label + ': ' + r.msg);
 
         var dot = document.createElement('div');
         dot.className = 'cal-flag-dot';
@@ -545,12 +549,24 @@
 
         var tip = document.createElement('div');
         tip.className = 'cal-flag-tip';
-        tip.style.transitionDelay = (.75 + flagIdx*.18) + 's';
         var strong = document.createElement('strong');
         strong.textContent = r.label;
         tip.appendChild(strong);
         tip.appendChild(document.createTextNode(r.msg));
         m.appendChild(tip);
+
+        function toggleFlag(open){
+          var willOpen = typeof open === 'boolean' ? open : !m.classList.contains('open');
+          document.querySelectorAll('.cal-flag.open').forEach(function(other){
+            if(other !== m){ other.classList.remove('open'); other.setAttribute('aria-expanded','false'); }
+          });
+          m.classList.toggle('open', willOpen);
+          m.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+        }
+        m.addEventListener('click', function(e){ e.stopPropagation(); toggleFlag(); });
+        m.addEventListener('keydown', function(e){
+          if(e.key==='Enter' || e.key===' '){ e.preventDefault(); e.stopPropagation(); toggleFlag(); }
+        });
 
         track.appendChild(m);
       });
@@ -580,6 +596,12 @@
   // Etiqueta "hoy" solo en la primera fila
   var firstToday = rows.querySelector('.cal-today');
   if(firstToday){ var lbl=document.createElement('span'); lbl.textContent='COMITÉ'; firstToday.appendChild(lbl); }
+
+  document.addEventListener('click', function(){
+    document.querySelectorAll('.cal-flag.open').forEach(function(f){
+      f.classList.remove('open'); f.setAttribute('aria-expanded','false');
+    });
+  });
 })();
 </script>
 </body>
