@@ -247,7 +247,8 @@
   .comment-text strong{color:var(--ink); font-weight:600;}
 
   /* ── Camino de adopción (ADKAR) ── */
-  .slide-pmo .slide-sub{max-width:88ch; margin-left:8vw;}
+  .slide-pmo .slide-sub{max-width:none; width:100%;}
+  .slide-pmo .foot-note{max-width:none; white-space:nowrap;}
   .adkar{position:relative; margin-top:6vh;}
   .adkar-line{
     position:absolute; top:34px; left:34px; right:34px; height:3px; border-radius:2px;
@@ -298,7 +299,7 @@
     .adkar-row{flex-direction:column; align-items:stretch; gap:22px;}
     .adkar-node{width:100%; flex-direction:row; text-align:left; gap:14px;}
     .adkar-circle{margin-bottom:0; flex:none;}
-    .slide-pmo .slide-sub{margin-left:0; max-width:none;}
+    .slide-pmo .foot-note{white-space:normal;}
   }
   @media print{
     body{overflow:visible;}
@@ -547,7 +548,7 @@
         </div>
       </div>
     </div>
-    <p class="foot-note reveal r2">Hito: RG10, RPR03 y RPR04 estaban condicionadas a la finalización de Calibre. Al cerrarse, se desbloqueó el desarrollo de las tres.</p>
+    <p class="foot-note reveal r2">Hito: al cerrarse Calibre se desbloqueó el desarrollo de RG10, RPR03 y RPR04.</p>
   </div>
 </section>
 
