@@ -164,6 +164,18 @@
   .slide.in .prog-fill{width:var(--w);}
   .prog-num{font:700 13px/1 var(--f-mono); color:var(--ink); min-width:34px; text-align:right; font-variant-numeric:tabular-nums;}
 
+  .hint{position:relative; display:inline-block;}
+  .hint-label{border-bottom:1px dashed var(--hairline-strong); cursor:help;}
+  .hint-tip{
+    position:absolute; left:50%; bottom:calc(100% + 10px); transform:translateX(-50%) translateY(6px) scale(.92);
+    width:208px; background:var(--ink); color:#fff; border-radius:9px; padding:10px 12px;
+    font:400 11.5px/1.5 var(--f-body); text-align:left; z-index:30; white-space:normal;
+    opacity:0; pointer-events:none; box-shadow:0 12px 26px rgba(12,35,60,.26);
+    transition:opacity .25s var(--ease), transform .25s var(--ease);
+  }
+  .hint-tip::after{content:''; position:absolute; top:100%; left:50%; transform:translateX(-50%); border:6px solid transparent; border-top-color:var(--ink);}
+  .hint:hover .hint-tip, .hint:focus-visible .hint-tip{opacity:1; transform:translateX(-50%) translateY(0) scale(1); pointer-events:auto;}
+
   .foot-note{
     margin-top:28px; font:400 12.5px/1.5 var(--f-body); color:var(--text-low); font-style:italic; max-width:74ch;
   }
@@ -398,7 +410,12 @@
           <td class="name-cell">Automatización para el seguimiento de usuarios</td>
           <td class="desc-cell">Modelo único para gestionar la relación de cada beneficiario con Arrabal, con trazabilidad completa de su recorrido</td>
           <td><span class="tag desviacion">En proceso</span></td>
-          <td><span style="color:var(--text-faint); font:700 13px var(--f-mono);">Fase 1</span></td>
+          <td>
+            <span class="hint" tabindex="0">
+              <span class="hint-label" style="color:var(--text-faint); font:700 13px var(--f-mono);">Fase 1</span>
+              <span class="hint-tip">Iniciativa en definición funcional: sin % de avance todavía, primera fase del diseño en curso.</span>
+            </span>
+          </td>
         </tr>
         <tr>
           <td class="code-cell">—</td>
