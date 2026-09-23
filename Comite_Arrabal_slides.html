@@ -169,30 +169,32 @@
   }
 
   /* ── Calendario ── */
-  .cal-flag{position:absolute; top:7px; width:15px; height:15px; margin-left:-7.5px; z-index:5; cursor:pointer;}
+  .cal-flag{position:absolute; top:7px; width:15px; height:15px; margin-left:-7.5px; z-index:5;}
   .cal-flag-dot{
     position:absolute; inset:0; transform:rotate(45deg);
     background:var(--amber); border:2px solid var(--bg); border-radius:2px;
-    animation:calPulse 2.4s ease-in-out .9s infinite;
+    animation:calPulse 2.4s ease-in-out 1.8s infinite;
   }
   @keyframes calPulse{
     0%,100%{box-shadow:0 0 0 0 rgba(154,103,0,.32);}
     50%{box-shadow:0 0 0 6px rgba(154,103,0,0);}
   }
   .cal-flag-tip{
-    position:absolute; left:50%; bottom:calc(100% + 10px); transform:translateX(-50%) translateY(6px) scale(.96);
-    width:236px; background:var(--ink); color:#fff; border-radius:10px; padding:12px 14px;
-    font:400 12px/1.55 var(--f-body); text-align:left; z-index:20;
-    opacity:0; pointer-events:none; box-shadow:0 12px 28px rgba(12,35,60,.24);
-    transition:opacity .22s var(--ease), transform .22s var(--ease);
+    position:absolute; left:50%; top:calc(100% + 12px);
+    transform:translateX(-50%) translateY(-8px) scale(.7) rotate(-3deg);
+    width:216px; background:var(--ink); color:#fff; border-radius:10px; padding:11px 13px;
+    font:400 11.5px/1.5 var(--f-body); text-align:left; z-index:20;
+    opacity:0; box-shadow:0 14px 30px rgba(12,35,60,.28);
+    transition:opacity .5s cubic-bezier(.34,1.56,.64,1), transform .5s cubic-bezier(.34,1.56,.64,1);
+    transform-origin:top center;
   }
-  .cal-flag-tip strong{display:block; margin-bottom:3px; color:var(--amber); font:600 11px/1.3 var(--f-mono); text-transform:uppercase; letter-spacing:.04em;}
+  .cal-flag-tip strong{display:block; margin-bottom:3px; color:var(--amber-tint); font:600 10.5px/1.3 var(--f-mono); text-transform:uppercase; letter-spacing:.04em;}
   .cal-flag-tip::after{
-    content:''; position:absolute; top:100%; left:50%; transform:translateX(-50%);
-    border:6px solid transparent; border-top-color:var(--ink);
+    content:''; position:absolute; bottom:100%; left:50%; transform:translateX(-50%);
+    border:6px solid transparent; border-bottom-color:var(--ink);
   }
-  .cal-flag:hover .cal-flag-tip, .cal-flag:focus-visible .cal-flag-tip{
-    opacity:1; transform:translateX(-50%) translateY(0) scale(1); pointer-events:auto;
+  .slide.in .cal-flag-tip{
+    opacity:1; transform:translateX(-50%) translateY(0) scale(1) rotate(0deg);
   }
   .cal{position:relative; padding-top:8px;}
   .cal-axis{display:flex; position:relative; height:26px; margin-bottom:8px; border-bottom:1px solid var(--hairline);}
@@ -488,7 +490,7 @@
   var data = [
     {cod:'RPR03', ini:new Date(2026,6,14), fin:new Date(2026,9,9), avance:.64, flags:[
       {date:new Date(2026,6,22), label:'Validación del entorno', msg:'Pendiente de validar el entorno donde se desplegará la solución.'},
-      {date:new Date(2026,8,4), label:'Integración Salesforce', msg:'Pendiente de decidir el servicio de integración con Salesforce necesario, para no incurrir en sobrecoste. A comentar en comité.'}
+      {date:new Date(2026,8,4), label:'Integración Salesforce', msg:'Pendiente de decidir el servicio de integración con Salesforce necesario, para no incurrir en sobrecoste.'}
     ]},
     {cod:'RPR04', ini:new Date(2026,6,27), fin:new Date(2026,7,28), avance:.93, flags:[]},
     {cod:'RG10',  ini:new Date(2026,6,15), fin:new Date(2026,7,28), avance:.94, flags:[]},
@@ -532,19 +534,18 @@
       var pctLabel = document.createElement('div');
       pctLabel.className='cal-pct'; pctLabel.style.left=x0+'%'; pctLabel.textContent=Math.round(d.avance*100)+'%';
       track.appendChild(pctLabel);
-      d.flags.forEach(function(r){
+      d.flags.forEach(function(r, flagIdx){
         var m = document.createElement('div');
         m.className='cal-flag'; m.style.left = pct(r.date)+'%';
-        m.tabIndex = 0;
-        m.setAttribute('role','button');
-        m.setAttribute('aria-label', r.label + ': ' + r.msg);
 
         var dot = document.createElement('div');
         dot.className = 'cal-flag-dot';
+        dot.style.animationDelay = (1.8 + flagIdx*.15) + 's';
         m.appendChild(dot);
 
         var tip = document.createElement('div');
         tip.className = 'cal-flag-tip';
+        tip.style.transitionDelay = (.75 + flagIdx*.18) + 's';
         var strong = document.createElement('strong');
         strong.textContent = r.label;
         tip.appendChild(strong);
