@@ -169,21 +169,30 @@
   }
 
   /* ── Calendario ── */
-  .cal-callout{
-    display:flex; align-items:flex-start; gap:13px;
-    background:var(--amber-tint); border:1px solid rgba(154,103,0,.22);
-    border-radius:10px; padding:15px 20px; margin-bottom:32px; max-width:74ch;
-  }
-  .cal-callout-icon{
-    flex:0 0 auto; width:13px; height:13px; margin-top:4px;
-    background:var(--amber); transform:rotate(45deg); border-radius:2px;
+  .cal-flag{position:absolute; top:7px; width:15px; height:15px; margin-left:-7.5px; z-index:5; cursor:pointer;}
+  .cal-flag-dot{
+    position:absolute; inset:0; transform:rotate(45deg);
+    background:var(--amber); border:2px solid var(--bg); border-radius:2px;
     animation:calPulse 2.4s ease-in-out .9s infinite;
   }
-  .cal-callout p{margin:0; font:400 13.5px/1.6 var(--f-body); color:var(--text-mid);}
-  .cal-callout strong{color:var(--amber); font-weight:600;}
   @keyframes calPulse{
     0%,100%{box-shadow:0 0 0 0 rgba(154,103,0,.32);}
-    50%{box-shadow:0 0 0 7px rgba(154,103,0,0);}
+    50%{box-shadow:0 0 0 6px rgba(154,103,0,0);}
+  }
+  .cal-flag-tip{
+    position:absolute; left:50%; bottom:calc(100% + 10px); transform:translateX(-50%) translateY(6px) scale(.96);
+    width:236px; background:var(--ink); color:#fff; border-radius:10px; padding:12px 14px;
+    font:400 12px/1.55 var(--f-body); text-align:left; z-index:20;
+    opacity:0; pointer-events:none; box-shadow:0 12px 28px rgba(12,35,60,.24);
+    transition:opacity .22s var(--ease), transform .22s var(--ease);
+  }
+  .cal-flag-tip strong{display:block; margin-bottom:3px; color:var(--amber); font:600 11px/1.3 var(--f-mono); text-transform:uppercase; letter-spacing:.04em;}
+  .cal-flag-tip::after{
+    content:''; position:absolute; top:100%; left:50%; transform:translateX(-50%);
+    border:6px solid transparent; border-top-color:var(--ink);
+  }
+  .cal-flag:hover .cal-flag-tip, .cal-flag:focus-visible .cal-flag-tip{
+    opacity:1; transform:translateX(-50%) translateY(0) scale(1); pointer-events:auto;
   }
   .cal{position:relative; padding-top:8px;}
   .cal-axis{display:flex; position:relative; height:26px; margin-bottom:8px; border-bottom:1px solid var(--hairline);}
@@ -201,7 +210,6 @@
   .cal-bar-fill{position:absolute; top:13px; height:8px; border-radius:5px; background:var(--kpmg); width:0; transition:width 1.1s .3s var(--ease);}
   .slide.in .cal-bar-fill{width:var(--w);}
   .cal-pct{position:absolute; top:26px; font:700 11px/1 var(--f-mono); color:var(--text-mid);}
-  .cal-flag{position:absolute; top:7px; width:15px; height:15px; margin-left:-7.5px; transform:rotate(45deg); background:var(--amber); border:2px solid var(--bg); border-radius:2px;}
   .cal-empty{font:400 13px/1 var(--f-body); color:var(--text-faint); font-style:italic;}
   .cal-approx{position:absolute; top:13px; height:8px; border-radius:5px; border:1.5px dashed var(--hairline-strong); background:transparent;}
   .cal-approx-label{position:absolute; top:26px; font:500 10.5px/1 var(--f-mono); color:var(--text-faint); font-style:italic; text-align:center; white-space:nowrap;}
@@ -351,7 +359,7 @@
         </tr>
       </tbody>
     </table>
-    <p class="foot-note reveal r2">RPR03: el desarrollo avanza según lo previsto; los dos puntos pendientes son de entorno/validación con el cliente (no de desarrollo) y se espera resolverlos a fecha del 23 de septiembre. RPR04 y RG10: el desarrollo está esencialmente cerrado, queda la validación final como único entregable pendiente.</p>
+    <p class="foot-note reveal r2">RPR03: el desarrollo avanza según lo previsto; quedan dos puntos pendientes (no de desarrollo) — validar el entorno de despliegue y decidir el servicio de integración con Salesforce necesario para no incurrir en sobrecoste. RPR04 y RG10: el desarrollo está esencialmente cerrado, queda la validación final como único entregable pendiente.</p>
   </div>
 </section>
 
@@ -360,22 +368,17 @@
   <div class="slide-inner">
     <p class="eyebrow">02 · Calendario</p>
     <h2 class="slide-title">Calendario</h2>
-    <p class="slide-sub">Ejecutado frente a previsto por iniciativa. Los marcadores en ámbar señalan los dos puntos de RPR03 pendientes de entorno/validación con el cliente.</p>
+    <p class="slide-sub">Ejecutado frente a previsto por iniciativa. Los marcadores en ámbar señalan los dos puntos pendientes de RPR03 — pasa el cursor sobre cada rombo para ver el detalle.</p>
 
-    <div class="cal-callout reveal r1">
-      <span class="cal-callout-icon" aria-hidden="true"></span>
-      <p><strong>¿Por qué los dos ámbar en RPR03?</strong> Ambas tareas están completadas en desarrollo pero bloqueadas a la espera del cliente: <em>validación del entorno de despliegue</em> (bloqueada desde el 22 jul.) e <em>integración con Salesforce y el modelo CRM</em> (bloqueada desde el 4 sept.). Resolución prevista: 23 sept.</p>
-    </div>
-
-    <div class="cal reveal r2">
+    <div class="cal reveal r1">
       <div class="cal-axis" id="calAxis"></div>
       <div id="calRows"></div>
     </div>
 
-    <div class="legend reveal r3">
+    <div class="legend reveal r2">
       <div class="legend-item"><span class="legend-swatch" style="background:var(--kpmg)"></span>Ejecutado</div>
       <div class="legend-item"><span class="legend-swatch" style="background:var(--surface-2); border:1px solid var(--hairline)"></span>Previsto</div>
-      <div class="legend-item"><span style="width:9px;height:9px;background:var(--amber);transform:rotate(45deg);display:inline-block;border-radius:1px;"></span>Pendiente de entorno/validación (resolución prevista 23 sept.)</div>
+      <div class="legend-item"><span style="width:9px;height:9px;background:var(--amber);transform:rotate(45deg);display:inline-block;border-radius:1px;"></span>Pendiente — ver detalle al pasar el cursor</div>
       <div class="legend-item"><span class="legend-swatch" style="background:var(--kpmg-bright); width:2px;"></span>Comité · 28 sept.</div>
     </div>
   </div>
@@ -394,7 +397,7 @@
           <div class="comment-bar" style="background:var(--amber)"></div>
           <div><div class="comment-code">RPR03</div><div class="comment-name">Recopilación automática de nuevos proyectos</div></div>
         </div>
-        <div class="comment-text">El desarrollo va según lo previsto. Quedan dos temas por resolver con el cliente —el acceso al entorno y la conexión con Salesforce—, no son problemas de desarrollo. <strong>Se espera tenerlos listos el 23 de septiembre.</strong> <em>No hace falta ninguna decisión del comité; se informará en la próxima sesión.</em></div>
+        <div class="comment-text">El desarrollo va según lo previsto. Quedan dos temas pendientes, no de desarrollo: validar el entorno de despliegue, y decidir el servicio de integración con Salesforce necesario. <strong>Este segundo punto se debe comentar en comité, para no incurrir en sobrecoste.</strong></div>
       </div>
       <div class="comment-row">
         <div class="comment-head">
@@ -483,7 +486,10 @@
   });
 
   var data = [
-    {cod:'RPR03', ini:new Date(2026,6,14), fin:new Date(2026,9,9), avance:.64, flags:[new Date(2026,6,22), new Date(2026,8,4)]},
+    {cod:'RPR03', ini:new Date(2026,6,14), fin:new Date(2026,9,9), avance:.64, flags:[
+      {date:new Date(2026,6,22), label:'Validación del entorno', msg:'Pendiente de validar el entorno donde se desplegará la solución.'},
+      {date:new Date(2026,8,4), label:'Integración Salesforce', msg:'Pendiente de decidir el servicio de integración con Salesforce necesario, para no incurrir en sobrecoste. A comentar en comité.'}
+    ]},
     {cod:'RPR04', ini:new Date(2026,6,27), fin:new Date(2026,7,28), avance:.93, flags:[]},
     {cod:'RG10',  ini:new Date(2026,6,15), fin:new Date(2026,7,28), avance:.94, flags:[]},
     {cod:'RC08',  ini:null, fin:null, avance:null, flags:[]},
@@ -528,7 +534,23 @@
       track.appendChild(pctLabel);
       d.flags.forEach(function(r){
         var m = document.createElement('div');
-        m.className='cal-flag'; m.style.left = pct(r)+'%';
+        m.className='cal-flag'; m.style.left = pct(r.date)+'%';
+        m.tabIndex = 0;
+        m.setAttribute('role','button');
+        m.setAttribute('aria-label', r.label + ': ' + r.msg);
+
+        var dot = document.createElement('div');
+        dot.className = 'cal-flag-dot';
+        m.appendChild(dot);
+
+        var tip = document.createElement('div');
+        tip.className = 'cal-flag-tip';
+        var strong = document.createElement('strong');
+        strong.textContent = r.label;
+        tip.appendChild(strong);
+        tip.appendChild(document.createTextNode(r.msg));
+        m.appendChild(tip);
+
         track.appendChild(m);
       });
     } else if(d.mesAprox){
