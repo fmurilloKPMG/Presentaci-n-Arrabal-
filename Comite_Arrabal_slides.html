@@ -169,6 +169,22 @@
   }
 
   /* ── Calendario ── */
+  .cal-callout{
+    display:flex; align-items:flex-start; gap:13px;
+    background:var(--amber-tint); border:1px solid rgba(154,103,0,.22);
+    border-radius:10px; padding:15px 20px; margin-bottom:32px; max-width:74ch;
+  }
+  .cal-callout-icon{
+    flex:0 0 auto; width:13px; height:13px; margin-top:4px;
+    background:var(--amber); transform:rotate(45deg); border-radius:2px;
+    animation:calPulse 2.4s ease-in-out .9s infinite;
+  }
+  .cal-callout p{margin:0; font:400 13.5px/1.6 var(--f-body); color:var(--text-mid);}
+  .cal-callout strong{color:var(--amber); font-weight:600;}
+  @keyframes calPulse{
+    0%,100%{box-shadow:0 0 0 0 rgba(154,103,0,.32);}
+    50%{box-shadow:0 0 0 7px rgba(154,103,0,0);}
+  }
   .cal{position:relative; padding-top:8px;}
   .cal-axis{display:flex; position:relative; height:26px; margin-bottom:8px; border-bottom:1px solid var(--hairline);}
   .cal-axis span{
@@ -346,12 +362,17 @@
     <h2 class="slide-title">Calendario</h2>
     <p class="slide-sub">Ejecutado frente a previsto por iniciativa. Los marcadores en ámbar señalan los dos puntos de RPR03 pendientes de entorno/validación con el cliente.</p>
 
-    <div class="cal reveal r1">
+    <div class="cal-callout reveal r1">
+      <span class="cal-callout-icon" aria-hidden="true"></span>
+      <p><strong>¿Por qué los dos ámbar en RPR03?</strong> Ambas tareas están completadas en desarrollo pero bloqueadas a la espera del cliente: <em>validación del entorno de despliegue</em> (bloqueada desde el 22 jul.) e <em>integración con Salesforce y el modelo CRM</em> (bloqueada desde el 4 sept.). Resolución prevista: 23 sept.</p>
+    </div>
+
+    <div class="cal reveal r2">
       <div class="cal-axis" id="calAxis"></div>
       <div id="calRows"></div>
     </div>
 
-    <div class="legend reveal r2">
+    <div class="legend reveal r3">
       <div class="legend-item"><span class="legend-swatch" style="background:var(--kpmg)"></span>Ejecutado</div>
       <div class="legend-item"><span class="legend-swatch" style="background:var(--surface-2); border:1px solid var(--hairline)"></span>Previsto</div>
       <div class="legend-item"><span style="width:9px;height:9px;background:var(--amber);transform:rotate(45deg);display:inline-block;border-radius:1px;"></span>Pendiente de entorno/validación (resolución prevista 23 sept.)</div>
