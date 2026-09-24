@@ -158,6 +158,8 @@
   .tag.plan::before{background:var(--green);}
   .tag.pendiente{background:transparent; color:var(--text-low); border:1px dashed var(--hairline-strong);}
   .tag.pendiente::before{background:var(--text-faint);}
+  .tag.cerrada{background:var(--green); color:#fff; border-color:var(--green);}
+  .tag.cerrada::before{background:#fff;}
 
   .prog{display:flex; align-items:center; gap:10px; min-width:120px;}
   .prog-track{flex:1; height:3px; background:var(--hairline-strong); border-radius:2px; overflow:hidden;}
@@ -376,7 +378,7 @@
   <div class="slide-inner">
     <p class="eyebrow">01 · Estado</p>
     <h2 class="slide-title">Estado de las iniciativas</h2>
-    <p class="slide-sub">Cuatro iniciativas en curso, más las formaciones previstas para octubre. El estado refleja el avance del desarrollo, no solo el campo "Estado" del reporte de origen.</p>
+    <p class="slide-sub">Cuatro iniciativas en curso, tres ya cerradas o en decisión final, más las formaciones previstas para octubre. El estado refleja el avance del desarrollo, no solo el campo "Estado" del reporte de origen.</p>
 
     <table class="status-table reveal r1">
       <thead>
@@ -420,6 +422,27 @@
           <td class="code-cell">—</td>
           <td class="name-cell">Formaciones a departamentos</td>
           <td class="desc-cell">Sesiones de formación para los departamentos implicados en las iniciativas</td>
+          <td><span class="tag pendiente">Por confirmar</span></td>
+          <td><span style="color:var(--text-faint); font:700 13px var(--f-mono);">—</span></td>
+        </tr>
+        <tr>
+          <td class="code-cell">REP06</td>
+          <td class="name-cell">Mapa de sistemas</td>
+          <td class="desc-cell">Mapa de sistemas actual y futuro, con el impacto de las iniciativas de integración</td>
+          <td><span class="tag cerrada">Finalizada</span></td>
+          <td><span style="color:var(--text-faint); font:700 13px var(--f-mono);">Entregado</span></td>
+        </tr>
+        <tr>
+          <td class="code-cell">REC05</td>
+          <td class="name-cell">Centralización del sistema contable</td>
+          <td class="desc-cell">Selección de la nueva herramienta contable, con documento de 4 proveedores finalistas</td>
+          <td><span class="tag desviacion">En decisión</span></td>
+          <td><span style="color:var(--text-faint); font:700 13px var(--f-mono);">4 finalistas</span></td>
+        </tr>
+        <tr>
+          <td class="code-cell">REP07</td>
+          <td class="name-cell">Automatización de herramientas de Excel</td>
+          <td class="desc-cell">Automatización de procesos y herramientas basados en Excel</td>
           <td><span class="tag pendiente">Por confirmar</span></td>
           <td><span style="color:var(--text-faint); font:700 13px var(--f-mono);">—</span></td>
         </tr>
@@ -492,6 +515,27 @@
           <div><div class="comment-code">Formaciones</div><div class="comment-name">Formaciones a departamentos</div></div>
         </div>
         <div class="comment-text">Formación para los departamentos implicados en las iniciativas. <strong>Se hará en octubre de 2026</strong>, aunque las fechas exactas todavía no están cerradas. <em>Se compartirá el calendario en cuanto esté definido.</em></div>
+      </div>
+      <div class="comment-row">
+        <div class="comment-head">
+          <div class="comment-bar" style="background:var(--green)"></div>
+          <div><div class="comment-code">REP06</div><div class="comment-name">Mapa de sistemas</div></div>
+        </div>
+        <div class="comment-text">Al llegar a esta iniciativa se vio que no había nada que migrar: no aportaba valor tal como estaba planteada. Se propuso a Arrabal cambiar el alcance por el <strong>mapa de sistemas</strong> —da la foto de su ecosistema actual y sirve de base para las futuras integraciones—. Arrabal lo aceptó y el cambio se acordó en comité. <em>Entregado: mapa de sistemas actual y futuro, con el impacto de las iniciativas.</em></div>
+      </div>
+      <div class="comment-row">
+        <div class="comment-head">
+          <div class="comment-bar" style="background:var(--amber)"></div>
+          <div><div class="comment-code">REC05</div><div class="comment-name">Centralización del sistema contable</div></div>
+        </div>
+        <div class="comment-text">Se identificó la necesidad de migrar a otra herramienta contable. <strong>Entregado el análisis de selección, con 4 proveedores finalistas.</strong> Arrabal está ahora eligiendo cuál implantar; después vendrán la implantación y la integración.</div>
+      </div>
+      <div class="comment-row">
+        <div class="comment-head">
+          <div class="comment-bar" style="background:var(--gray)"></div>
+          <div><div class="comment-code">REP07</div><div class="comment-name">Automatización de herramientas de Excel</div></div>
+        </div>
+        <div class="comment-text" style="color:var(--text-faint); font-style:italic;">[Por confirmar] Quedó pendiente de validación del documento funcional para su cierre; sin confirmación reciente de si se cerró.</div>
       </div>
     </div>
   </div>
