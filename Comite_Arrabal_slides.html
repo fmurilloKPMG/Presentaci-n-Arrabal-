@@ -478,6 +478,7 @@
   <button class="rail-item" data-i="1"><span class="rail-num">01</span><span class="rail-dot"></span></button>
   <button class="rail-item" data-i="2"><span class="rail-num">02</span><span class="rail-dot"></span></button>
   <button class="rail-item" data-i="3"><span class="rail-num">03</span><span class="rail-dot"></span></button>
+  <button class="rail-item" data-i="4"><span class="rail-num">04</span><span class="rail-dot"></span></button>
   <span class="rail-label" id="railLabel">PORTADA</span>
 </nav>
 
@@ -617,10 +618,69 @@
   </div>
 </section>
 
-<!-- ═══ 2 · CALENDARIO ═══ -->
+<!-- ═══ 2 · ESTADO 2027 ═══ -->
 <section class="slide" data-slide>
   <div class="slide-inner">
-    <p class="eyebrow">02 · Calendario</p>
+    <p class="eyebrow">02 · Próximo ciclo</p>
+    <h2 class="slide-title slide-title-wide">Estado de las iniciativas <span class="title-year">2027</span></h2>
+    <p class="slide-sub">Seis iniciativas replanificadas a 2027 por priorización y cambios de alcance. Quedan pendientes las reuniones de entendimiento para decidir cuáles arrancan en los próximos meses.</p>
+
+    <table class="status-table reveal r1">
+      <thead>
+        <tr><th>Código</th><th>Iniciativa</th><th>Área Arrabal</th><th>Paquete</th><th>Estado</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="code-cell">RG09</td>
+          <td class="name-cell">Centralización de agendas</td>
+          <td class="desc-cell">Gobierno</td>
+          <td class="desc-cell">CRM y procesos operativos</td>
+          <td><span class="tag pendiente">2027</span></td>
+        </tr>
+        <tr>
+          <td class="code-cell">REP05</td>
+          <td class="name-cell">Acciones contra la pérdida/corrupción de datos</td>
+          <td class="desc-cell">Estrategia y Propósito</td>
+          <td class="desc-cell">Data Platform, seguridad y arquitectura</td>
+          <td><span class="tag pendiente">2027</span></td>
+        </tr>
+        <tr>
+          <td class="code-cell">RG04</td>
+          <td class="name-cell">Creación de un modelo de reporting automatizado</td>
+          <td class="desc-cell">Gobierno</td>
+          <td class="desc-cell">Reporting y analítica</td>
+          <td><span class="tag pendiente">2027</span></td>
+        </tr>
+        <tr>
+          <td class="code-cell">RPT12</td>
+          <td class="name-cell">Feedback automatizado del personal interno para impulsar la mejora en proyectos</td>
+          <td class="desc-cell">Persona y Talentos</td>
+          <td class="desc-cell">Reporting y analítica</td>
+          <td><span class="tag pendiente">2027</span></td>
+        </tr>
+        <tr>
+          <td class="code-cell">REP03</td>
+          <td class="name-cell">Diseño de un modelo integrado para generación de alertas</td>
+          <td class="desc-cell">Estrategia y Propósito</td>
+          <td class="desc-cell">Reporting y analítica</td>
+          <td><span class="tag pendiente">2027</span></td>
+        </tr>
+        <tr>
+          <td class="code-cell">RPT02</td>
+          <td class="name-cell">Gestión de formación y matriz de skills</td>
+          <td class="desc-cell">Persona y Talentos</td>
+          <td class="desc-cell">Personas y talento</td>
+          <td><span class="tag pendiente">2027</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══ 3 · CALENDARIO ═══ -->
+<section class="slide" data-slide>
+  <div class="slide-inner">
+    <p class="eyebrow">03 · Calendario</p>
     <h2 class="slide-title">Calendario</h2>
     <p class="slide-sub">En azul, lo que está en desarrollo; en verde, lo ya finalizado. Los marcadores en ámbar señalan los dos puntos pendientes de RPR03 — pasa el cursor sobre los rombos y sobre cada barra para ver el detalle.</p>
 
@@ -639,10 +699,10 @@
   </div>
 </section>
 
-<!-- ═══ 3 · GESTIÓN DEL CAMBIO ═══ -->
+<!-- ═══ 4 · GESTIÓN DEL CAMBIO ═══ -->
 <section class="slide slide-pmo" data-slide>
   <div class="slide-inner">
-    <p class="eyebrow">03 · Gestión del cambio</p>
+    <p class="eyebrow">04 · Gestión del cambio</p>
     <h2 class="slide-title">PMO</h2>
     <p class="slide-sub">Reuniones con cliente y validación de documentos funcionales cerraron el terreno. Al resolverse Calibre, el ritmo se aceleró y arrancaron los desarrollos. En octubre, las formaciones muestran a cada departamento la utilidad real del cambio.</p>
 
@@ -716,7 +776,7 @@
   var slides = Array.prototype.slice.call(document.querySelectorAll('[data-slide]'));
   var railItems = Array.prototype.slice.call(document.querySelectorAll('.rail-item'));
   var railLabel = document.getElementById('railLabel');
-  var labels = ['PORTADA','01 · ESTADO','02 · CALENDARIO','03 · CAMBIO'];
+  var labels = ['PORTADA','01 · ESTADO','02 · 2027','03 · CALENDARIO','04 · CAMBIO'];
 
   railItems.forEach(function(btn, i){
     btn.addEventListener('click', function(){ slides[i].scrollIntoView({behavior:'smooth'}); });
