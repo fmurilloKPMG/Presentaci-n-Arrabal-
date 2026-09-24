@@ -212,6 +212,8 @@
   .hint-tip::after{content:''; position:absolute; top:100%; left:50%; transform:translateX(-50%); border:6px solid transparent; border-top-color:var(--ink);}
   .hint:hover .hint-tip, .hint:focus-visible .hint-tip{opacity:1; transform:translateX(-50%) translateY(0) scale(1); pointer-events:auto;}
 
+  /* El título va en una línea para que el año quede al lado, no debajo */
+  .slide-title-wide{max-width:none;}
   .title-year{color:rgba(0,51,141,.34);}
 
   .foot-note{
@@ -477,7 +479,7 @@
 <section class="slide" data-slide>
   <div class="slide-inner">
     <p class="eyebrow">01 · Estado</p>
-    <h2 class="slide-title">Estado de las iniciativas <span class="title-year">2026</span></h2>
+    <h2 class="slide-title slide-title-wide">Estado de las iniciativas <span class="title-year">2026</span></h2>
     <p class="slide-sub">Cuatro iniciativas en curso, tres ya cerradas o en decisión final, más las formaciones previstas para octubre. El estado refleja el avance del desarrollo, no solo el campo "Estado" del reporte de origen. Pasa el cursor sobre cada código para ver el detalle.</p>
 
     <table class="status-table reveal r1">
