@@ -247,7 +247,7 @@
     position:absolute; top:0; font:500 10.5px/1 var(--f-mono); letter-spacing:.1em; color:var(--text-faint);
     transform:translateX(-50%);
   }
-  .cal-row{display:grid; grid-template-columns:110px 1fr; align-items:center; gap:18px; padding:18px 0; border-bottom:1px solid var(--hairline);}
+  .cal-row{display:grid; grid-template-columns:110px 1fr; align-items:center; gap:18px; padding:12px 0; border-bottom:1px solid var(--hairline);}
   .cal-row:last-child{border-bottom:none;}
   .cal-code{font:700 14px/1.3 var(--f-mono); color:var(--kpmg);}
   .cal-track{position:relative; height:34px;}
@@ -632,11 +632,14 @@
 
   // ── Calendario: construido desde los mismos datos reales del deck ──
   var HOY = new Date(2026,8,28); // fecha del comité
-  var AXIS_START = new Date(2026,6,1), AXIS_END = new Date(2026,10,5);
+  var AXIS_START = new Date(2026,2,1), AXIS_END = new Date(2026,10,5);
   var totalDays = (AXIS_END - AXIS_START) / 86400000;
   function pct(d){ return ((d-AXIS_START)/86400000) / totalDays * 100; }
 
-  var months = [[new Date(2026,6,1),'JUL'],[new Date(2026,7,1),'AGO'],[new Date(2026,8,1),'SEP'],[new Date(2026,9,1),'OCT']];
+  var months = [
+    [new Date(2026,2,1),'MAR'],[new Date(2026,3,1),'ABR'],[new Date(2026,4,1),'MAY'],[new Date(2026,5,1),'JUN'],
+    [new Date(2026,6,1),'JUL'],[new Date(2026,7,1),'AGO'],[new Date(2026,8,1),'SEP'],[new Date(2026,9,1),'OCT']
+  ];
   var axis = document.getElementById('calAxis');
   months.forEach(function(m){
     var s = document.createElement('span');
@@ -656,7 +659,10 @@
     {cod:'RPR04', ini:new Date(2026,6,27), fin:new Date(2026,7,28), avance:.93, flags:[]},
     {cod:'RG10',  ini:new Date(2026,6,15), fin:new Date(2026,7,28), avance:.94, flags:[]},
     {cod:'REP08', ini:null, fin:null, avance:null, flags:[]},
-    {cod:'Formaciones', ini:null, fin:null, avance:null, flags:[], mesAprox:[new Date(2026,9,1), new Date(2026,9,31)]}
+    {cod:'Formaciones', ini:null, fin:null, avance:null, flags:[], mesAprox:[new Date(2026,9,1), new Date(2026,9,31)]},
+    {cod:'REP07', ini:new Date(2026,2,1), fin:new Date(2026,5,30), avance:1, flags:[]},
+    {cod:'REP06', ini:new Date(2026,3,1), fin:new Date(2026,5,30), avance:1, flags:[]},
+    {cod:'REC05', ini:new Date(2026,6,1), fin:new Date(2026,8,5), avance:1, flags:[]}
   ];
 
   var OCT_START = new Date(2026,9,1), OCT_END = new Date(2026,10,1);
