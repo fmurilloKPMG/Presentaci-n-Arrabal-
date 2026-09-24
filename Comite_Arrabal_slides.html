@@ -16,6 +16,8 @@
     --red:#A6192E; --red-tint:#F9E7EA;
     --amber:#9A6700; --amber-tint:#FBF1DD;
     --green:#0E7A4F; --green-tint:#E7F4EE; --green-vivid:#14A868;
+    /* violeta KPMG: lo que está por decidir */
+    --violet:#6D2077; --violet-bright:#A0439B; --violet-tint:#F5ECF7;
     --gray:#6A7890;
     --ease: cubic-bezier(.23,1,.32,1);
     --f-body:"Inter",-apple-system,"Segoe UI",Arial,sans-serif;
@@ -211,6 +213,54 @@
   }
   .hint-tip::after{content:''; position:absolute; top:100%; left:50%; transform:translateX(-50%); border:6px solid transparent; border-top-color:var(--ink);}
   .hint:hover .hint-tip, .hint:focus-visible .hint-tip{opacity:1; transform:translateX(-50%) translateY(0) scale(1); pointer-events:auto;}
+
+  /* ── Próximo ciclo 2027 ── */
+  .next-grid{display:grid; grid-template-columns:minmax(260px,.8fr) 1.2fr; gap:60px; align-items:start; margin-top:10px;}
+
+  .next-badge{
+    display:inline-block; margin-bottom:18px; padding:6px 12px; border-radius:20px;
+    background:var(--violet-tint); color:var(--violet); border:1px solid rgba(109,32,119,.22);
+    font:600 10.5px/1 var(--f-mono); letter-spacing:.12em; text-transform:uppercase;
+  }
+  .next-count{display:flex; align-items:baseline; gap:14px;}
+  .next-num{
+    font:440 clamp(3.2rem,6.4vw,5.2rem)/1 var(--f-display); color:var(--violet);
+    font-variant-numeric:tabular-nums; letter-spacing:-.02em;
+  }
+  .next-unit{font:600 11.5px/1 var(--f-mono); letter-spacing:.14em; text-transform:uppercase; color:var(--text-faint);}
+  .next-lead{font:400 14.5px/1.5 var(--f-body); color:var(--text-mid); margin:8px 0 28px;}
+
+  .next-quote{
+    position:relative; margin:0 0 20px; padding:2px 0 2px 22px;
+    font:400 clamp(1rem,1.3vw,1.15rem)/1.55 var(--f-display); font-style:italic; color:var(--ink);
+  }
+  .next-quote::before{
+    content:''; position:absolute; left:0; top:0; bottom:0; width:3px; border-radius:2px;
+    background:linear-gradient(180deg, var(--violet), var(--violet-bright));
+    transform:scaleY(0); transform-origin:top; transition:transform .75s .45s cubic-bezier(.22,1,.36,1);
+  }
+  .slide.in .next-quote::before{transform:scaleY(1);}
+  .next-foot{font:400 12.5px/1.55 var(--f-body); color:var(--text-low); margin:0;}
+
+  .next-list{list-style:none; margin:0; padding:0;}
+  .next-item{
+    display:grid; grid-template-columns:78px 1fr auto; align-items:center; gap:18px;
+    padding:14px 14px 14px 16px; border-radius:10px; position:relative;
+    opacity:0; transform:translateX(26px);
+    transition:opacity .5s cubic-bezier(.22,1,.36,1), transform .5s cubic-bezier(.22,1,.36,1), background .25s var(--ease);
+    transition-delay:calc(var(--i) * .075s + .3s);
+  }
+  .slide.in .next-item{opacity:1; transform:translateX(0);}
+  .next-item::before{
+    content:''; position:absolute; left:0; top:13px; bottom:13px; width:2px; border-radius:2px;
+    background:var(--violet); opacity:.32;
+    transition:opacity .25s var(--ease), top .25s var(--ease), bottom .25s var(--ease);
+  }
+  .next-item:hover{background:var(--violet-tint);}
+  .next-item:hover::before{opacity:1; top:5px; bottom:5px;}
+  .next-code{font:700 14px/1 var(--f-mono); color:var(--violet);}
+  .next-name{font:600 14.5px/1.35 var(--f-body); color:var(--ink);}
+  .next-area{font:500 10px/1 var(--f-mono); letter-spacing:.1em; text-transform:uppercase; color:var(--text-faint); white-space:nowrap;}
 
   /* El título va en una línea para que el año quede al lado, no debajo */
   .slide-title-wide{max-width:none;}
@@ -461,6 +511,9 @@
     .adkar-node{width:100%; flex-direction:row; text-align:left; gap:14px;}
     .adkar-circle{margin-bottom:0; flex:none;}
     .slide-pmo .foot-note{white-space:normal;}
+    .next-grid{grid-template-columns:1fr; gap:32px;}
+    .next-item{grid-template-columns:70px 1fr; gap:12px;}
+    .next-area{grid-column:2; margin-top:4px;}
   }
   @media print{
     body{overflow:visible;}
@@ -623,57 +676,28 @@
   <div class="slide-inner">
     <p class="eyebrow">02 · Próximo ciclo</p>
     <h2 class="slide-title slide-title-wide">Estado de las iniciativas <span class="title-year">2027</span></h2>
-    <p class="slide-sub">Seis iniciativas replanificadas a 2027 por priorización y cambios de alcance. Quedan pendientes las reuniones de entendimiento para decidir cuáles arrancan en los próximos meses.</p>
 
-    <table class="status-table reveal r1">
-      <thead>
-        <tr><th>Código</th><th>Iniciativa</th><th>Área Arrabal</th><th>Paquete</th><th>Estado</th></tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="code-cell">RG09</td>
-          <td class="name-cell">Centralización de agendas</td>
-          <td class="desc-cell">Gobierno</td>
-          <td class="desc-cell">CRM y procesos operativos</td>
-          <td><span class="tag pendiente">2027</span></td>
-        </tr>
-        <tr>
-          <td class="code-cell">REP05</td>
-          <td class="name-cell">Acciones contra la pérdida/corrupción de datos</td>
-          <td class="desc-cell">Estrategia y Propósito</td>
-          <td class="desc-cell">Data Platform, seguridad y arquitectura</td>
-          <td><span class="tag pendiente">2027</span></td>
-        </tr>
-        <tr>
-          <td class="code-cell">RG04</td>
-          <td class="name-cell">Creación de un modelo de reporting automatizado</td>
-          <td class="desc-cell">Gobierno</td>
-          <td class="desc-cell">Reporting y analítica</td>
-          <td><span class="tag pendiente">2027</span></td>
-        </tr>
-        <tr>
-          <td class="code-cell">RPT12</td>
-          <td class="name-cell">Feedback automatizado del personal interno para impulsar la mejora en proyectos</td>
-          <td class="desc-cell">Persona y Talentos</td>
-          <td class="desc-cell">Reporting y analítica</td>
-          <td><span class="tag pendiente">2027</span></td>
-        </tr>
-        <tr>
-          <td class="code-cell">REP03</td>
-          <td class="name-cell">Diseño de un modelo integrado para generación de alertas</td>
-          <td class="desc-cell">Estrategia y Propósito</td>
-          <td class="desc-cell">Reporting y analítica</td>
-          <td><span class="tag pendiente">2027</span></td>
-        </tr>
-        <tr>
-          <td class="code-cell">RPT02</td>
-          <td class="name-cell">Gestión de formación y matriz de skills</td>
-          <td class="desc-cell">Persona y Talentos</td>
-          <td class="desc-cell">Personas y talento</td>
-          <td><span class="tag pendiente">2027</span></td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="next-grid">
+      <aside class="next-why">
+        <span class="next-badge">Por decidir</span>
+        <div class="next-count">
+          <span class="next-num" id="next2027">00</span>
+          <span class="next-unit">iniciativas</span>
+        </div>
+        <p class="next-lead">replanificadas al próximo ciclo</p>
+        <blockquote class="next-quote">Por priorización de iniciativas y cambios de alcance se planifica su ejecución en 2027.</blockquote>
+        <p class="next-foot">Pendientes las reuniones de entendimiento para decidir cuáles arrancan en los próximos meses.</p>
+      </aside>
+
+      <ul class="next-list">
+        <li class="next-item" style="--i:0"><span class="next-code">RG09</span><span class="next-name">Centralización de agendas</span><span class="next-area">Gobierno</span></li>
+        <li class="next-item" style="--i:1"><span class="next-code">REP05</span><span class="next-name">Acciones contra la pérdida/corrupción de datos</span><span class="next-area">Estrategia y Propósito</span></li>
+        <li class="next-item" style="--i:2"><span class="next-code">RG04</span><span class="next-name">Creación de un modelo de reporting automatizado</span><span class="next-area">Gobierno</span></li>
+        <li class="next-item" style="--i:3"><span class="next-code">RPT12</span><span class="next-name">Feedback automatizado del personal interno para impulsar la mejora en proyectos</span><span class="next-area">Persona y Talentos</span></li>
+        <li class="next-item" style="--i:4"><span class="next-code">REP03</span><span class="next-name">Diseño de un modelo integrado para generación de alertas</span><span class="next-area">Estrategia y Propósito</span></li>
+        <li class="next-item" style="--i:5"><span class="next-code">RPT02</span><span class="next-name">Gestión de formación y matriz de skills</span><span class="next-area">Persona y Talentos</span></li>
+      </ul>
+    </div>
   </div>
 </section>
 
@@ -984,6 +1008,32 @@
   // Etiqueta "hoy" solo en la primera fila
   var firstToday = rows.querySelector('.cal-today');
   if(firstToday){ var lbl=document.createElement('span'); lbl.textContent='COMITÉ'; firstToday.appendChild(lbl); }
+
+  // Contador del número de iniciativas replanificadas a 2027
+  var counterEl = document.getElementById('next2027');
+  if(counterEl){
+    var quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var meta = 6;
+    if(quieto){
+      counterEl.textContent = '0' + meta;
+    } else {
+      var lanzado = false;
+      new IntersectionObserver(function(entradas){
+        entradas.forEach(function(e){
+          if(!e.isIntersecting || lanzado) return;
+          lanzado = true;
+          var t0 = null;
+          requestAnimationFrame(function paso(ts){
+            if(!t0) t0 = ts;
+            var k = Math.min((ts - t0) / 1000, 1);
+            var suave = 1 - Math.pow(1 - k, 3);
+            counterEl.textContent = '0' + Math.round(suave * meta);
+            if(k < 1) requestAnimationFrame(paso);
+          });
+        });
+      }, {threshold:.6}).observe(counterEl);
+    }
+  }
 
   // Los tooltips de la tabla de estado se abren hacia abajo salvo que no quepan
   Array.prototype.forEach.call(document.querySelectorAll('.code-trigger'), function(trigger){
