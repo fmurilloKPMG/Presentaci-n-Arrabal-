@@ -144,20 +144,35 @@
   .name-cell{font:600 15px/1.35 var(--f-body); color:var(--ink); max-width:230px;}
   .desc-cell{font:400 13.5px/1.5 var(--f-body); color:var(--text-mid); max-width:340px;}
 
-  .status-table tbody tr{cursor:default;}
+  .code-trigger{
+    display:inline-flex; align-items:center; gap:6px; cursor:help;
+    border-bottom:1.5px dashed rgba(0,51,141,.4); padding-bottom:2px;
+  }
+  .code-trigger::after{
+    content:'i'; display:inline-flex; align-items:center; justify-content:center;
+    width:14px; height:14px; border-radius:50%; background:var(--surface-2); color:var(--kpmg);
+    font:700 10px/1 var(--f-mono); flex:none;
+  }
   .row-tip{
-    position:absolute; left:0; top:calc(100% + 10px);
-    width:min(480px, 60vw); background:var(--ink); color:#fff; border-radius:12px; padding:16px 20px;
+    position:absolute; left:-4px; top:calc(100% + 14px);
+    width:min(440px, 58vw); background:var(--ink); color:#fff; border-radius:12px; padding:16px 20px;
     font:400 13.5px/1.6 var(--f-body); text-align:left; z-index:40;
-    opacity:0; transform:translateY(-8px) scale(.96); transform-origin:top left; pointer-events:none;
-    box-shadow:0 16px 34px rgba(12,35,60,.3);
-    transition:opacity .3s cubic-bezier(.34,1.56,.64,1), transform .3s cubic-bezier(.34,1.56,.64,1);
+    opacity:0; visibility:hidden; transform:translateY(-10px) scale(.94); transform-origin:top left; pointer-events:none;
+    box-shadow:0 18px 38px rgba(12,35,60,.34);
+    transition:opacity .3s cubic-bezier(.34,1.56,.64,1), transform .3s cubic-bezier(.34,1.56,.64,1), visibility 0s linear .3s;
+  }
+  .row-tip::before{
+    content:''; position:absolute; bottom:100%; left:14px;
+    border:7px solid transparent; border-bottom-color:var(--ink);
   }
   .row-tip strong{color:#fff; font-weight:700;}
   .row-tip em{color:rgba(255,255,255,.7); font-style:italic;}
-  .status-table tbody tr:hover .row-tip{opacity:1; transform:translateY(0) scale(1); pointer-events:auto;}
-  .row-tip.row-tip-up{top:auto; bottom:calc(100% + 10px); transform-origin:bottom left; transform:translateY(8px) scale(.96);}
-  .status-table tbody tr:hover .row-tip-up{transform:translateY(0) scale(1);}
+  .code-trigger:hover .row-tip, .code-trigger:focus-visible .row-tip{
+    opacity:1; visibility:visible; transform:translateY(0) scale(1); pointer-events:auto; transition-delay:0s;
+  }
+  .row-tip.row-tip-up{top:auto; bottom:calc(100% + 14px); transform-origin:bottom left; transform:translateY(10px) scale(.94);}
+  .row-tip.row-tip-up::before{top:100%; bottom:auto; border-bottom-color:transparent; border-top-color:var(--ink);}
+  .code-trigger:hover .row-tip-up, .code-trigger:focus-visible .row-tip-up{transform:translateY(0) scale(1);}
 
   .tag{
     display:inline-flex; align-items:center; gap:7px;
@@ -400,36 +415,36 @@
       </thead>
       <tbody>
         <tr>
-          <td class="code-cell">RPR03
+          <td class="code-cell"><span class="code-trigger" tabindex="0">RPR03
             <div class="row-tip">El desarrollo va según lo previsto. Quedan dos temas pendientes, no de desarrollo: validar el entorno de despliegue, y decidir el servicio de integración con Salesforce necesario. <strong>Este segundo punto se debe comentar en comité, para no incurrir en sobrecoste.</strong></div>
-          </td>
+          </span></td>
           <td class="name-cell">Recopilación automática de nuevos proyectos</td>
           <td class="desc-cell">Automatiza la captación de convocatorias y ayudas desde fuentes públicas y privadas</td>
           <td><span class="tag desviacion">En proceso</span></td>
           <td><div class="prog"><div class="prog-track"><div class="prog-fill" style="--w:71%"></div></div><span class="prog-num">71%</span></div></td>
         </tr>
         <tr>
-          <td class="code-cell">RPR04
+          <td class="code-cell"><span class="code-trigger" tabindex="0">RPR04
             <div class="row-tip">El desarrollo está prácticamente terminado. Solo falta la validación final con los equipos, que va al 70%. <em>No hay ningún bloqueo: solo queda cerrar la fecha de esa validación.</em></div>
-          </td>
+          </span></td>
           <td class="name-cell">Overview económico y administrativo</td>
           <td class="desc-cell">Cuadro de mando económico-administrativo accesible y trazable para los proyectos</td>
           <td><span class="tag plan">En plan</span></td>
           <td><div class="prog"><div class="prog-track"><div class="prog-fill" style="--w:93%"></div></div><span class="prog-num">93%</span></div></td>
         </tr>
         <tr>
-          <td class="code-cell">RG10
+          <td class="code-cell"><span class="code-trigger" tabindex="0">RG10
             <div class="row-tip">Igual que RPR04: el desarrollo está terminado y solo falta la validación final con el cliente, que va al 55%. <em>Pendiente de cerrar esa validación con el cliente.</em></div>
-          </td>
+          </span></td>
           <td class="name-cell">Optimización y documentación del CRM</td>
           <td class="desc-cell">Mejora el modelo CRM y documenta su uso para el equipo</td>
           <td><span class="tag plan">En plan</span></td>
           <td><div class="prog"><div class="prog-track"><div class="prog-fill" style="--w:94%"></div></div><span class="prog-num">94%</span></div></td>
         </tr>
         <tr>
-          <td class="code-cell">REP08
+          <td class="code-cell"><span class="code-trigger" tabindex="0">REP08
             <div class="row-tip">Modelo y procesos ya estructurados; quedan algunos escenarios por cerrar para completar la primera fase del diseño. <strong>Sesión de validación con Arrabal en las próximas semanas</strong> para revisar avances y cerrar los pendientes.</div>
-          </td>
+          </span></td>
           <td class="name-cell">Automatización para el seguimiento de usuarios</td>
           <td class="desc-cell">Modelo único para gestionar la relación de cada beneficiario con Arrabal, con trazabilidad completa de su recorrido</td>
           <td><span class="tag desviacion">En proceso</span></td>
@@ -441,27 +456,27 @@
           </td>
         </tr>
         <tr>
-          <td class="code-cell">—
+          <td class="code-cell"><span class="code-trigger" tabindex="0">—
             <div class="row-tip">Formación para los departamentos implicados en las iniciativas. <strong>Se hará en octubre de 2026</strong>, aunque las fechas exactas todavía no están cerradas. <em>Se compartirá el calendario en cuanto esté definido.</em></div>
-          </td>
+          </span></td>
           <td class="name-cell">Formaciones a departamentos</td>
           <td class="desc-cell">Sesiones de formación para los departamentos implicados en las iniciativas</td>
           <td><span class="tag pendiente">Por confirmar</span></td>
           <td><span style="color:var(--text-faint); font:700 13px var(--f-mono);">—</span></td>
         </tr>
         <tr>
-          <td class="code-cell">REP06
+          <td class="code-cell"><span class="code-trigger" tabindex="0">REP06
             <div class="row-tip">Al llegar a esta iniciativa se vio que no había nada que migrar: no aportaba valor tal como estaba planteada. Se propuso a Arrabal cambiar el alcance por el <strong>mapa de sistemas actual</strong> —da la foto de su ecosistema y sirve de base para las futuras integraciones—. Arrabal lo aceptó y el cambio se acordó en comité. <em>Entregado: mapa de sistemas actual.</em></div>
-          </td>
+          </span></td>
           <td class="name-cell">Mapa de sistemas</td>
           <td class="desc-cell">Mapa del ecosistema de sistemas actual de Arrabal</td>
           <td><span class="tag cerrada">Finalizada</span></td>
           <td><span style="color:var(--text-faint); font:700 13px var(--f-mono);">Entregado</span></td>
         </tr>
         <tr>
-          <td class="code-cell">REC05
+          <td class="code-cell"><span class="code-trigger" tabindex="0">REC05
             <div class="row-tip">Se identificó la necesidad de migrar a otra herramienta contable. Acompañamos a Arrabal con el análisis de selección y el asesoramiento sobre las mejores opciones, con <strong>4 proveedores finalistas entregados.</strong> <em>Por nuestra parte, finalizada: ahora la decisión de cuál implantar es de Arrabal.</em></div>
-          </td>
+          </span></td>
           <td class="name-cell">Centralización del sistema contable</td>
           <td class="desc-cell">Acompañamiento y asesoramiento para seleccionar la nueva herramienta contable</td>
           <td><span class="tag cerrada">Finalizada</span></td>
@@ -473,9 +488,9 @@
           </td>
         </tr>
         <tr>
-          <td class="code-cell">REP07
+          <td class="code-cell"><span class="code-trigger" tabindex="0">REP07
             <div class="row-tip row-tip-up"><strong>Finalizada desde junio de 2026.</strong> Documento funcional validado y automatizaciones desarrolladas y en ejecución.</div>
-          </td>
+          </span></td>
           <td class="name-cell">Automatización de herramientas de Excel</td>
           <td class="desc-cell">Automatización de procesos y herramientas basados en Excel</td>
           <td><span class="tag cerrada">Finalizada</span></td>
