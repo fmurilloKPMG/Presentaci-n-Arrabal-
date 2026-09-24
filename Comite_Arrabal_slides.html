@@ -212,6 +212,13 @@
   .hint-tip::after{content:''; position:absolute; top:100%; left:50%; transform:translateX(-50%); border:6px solid transparent; border-top-color:var(--ink);}
   .hint:hover .hint-tip, .hint:focus-visible .hint-tip{opacity:1; transform:translateX(-50%) translateY(0) scale(1); pointer-events:auto;}
 
+  .year-stamp{display:flex; align-items:center; gap:20px; margin-top:34px;}
+  .year-stamp::before{content:''; flex:1; height:1px; background:var(--hairline);}
+  .year-stamp span{
+    font:440 clamp(1.5rem,2.4vw,2.1rem)/1 var(--f-display);
+    color:rgba(0,51,141,.3); letter-spacing:.03em;
+  }
+
   .foot-note{
     margin-top:28px; font:400 12.5px/1.5 var(--f-body); color:var(--text-low); font-style:italic; max-width:none;
   }
@@ -567,7 +574,7 @@
         </tr>
       </tbody>
     </table>
-    <p class="foot-note reveal r2">RPR03: el desarrollo avanza según lo previsto; quedan dos puntos pendientes (no de desarrollo) — validar el entorno de despliegue y decidir el servicio de integración con Salesforce necesario para no incurrir en sobrecoste. RPR04 y RG10: el desarrollo está esencialmente cerrado, queda la validación final como único entregable pendiente.</p>
+    <div class="year-stamp reveal r2"><span>2026</span></div>
   </div>
 </section>
 
