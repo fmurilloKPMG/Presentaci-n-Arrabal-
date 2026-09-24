@@ -342,6 +342,7 @@
     content:'✓'; position:absolute; right:-16px; top:50%; transform:translateY(-50%);
     font:700 12px/1 var(--f-mono); color:var(--green-vivid);
   }
+  .cal-row.activo .cal-pct-func{color:var(--green); font-size:10.5px; font-weight:700;}
 
   /* Zona de hover que identifica cada fase */
   .cal-seg{position:absolute; top:7px; height:21px; z-index:4; cursor:help;}
@@ -747,7 +748,9 @@
 
   // ── Calendario: construido desde los mismos datos reales del deck ──
   var HOY = new Date(2026,8,28); // fecha del comité
-  var AXIS_START = new Date(2026,1,1), AXIS_END = new Date(2026,10,5);
+  // El eje arranca unos días antes de febrero: si no, la barra de RG10 nace
+  // pegada al borde del gráfico y parece cortada.
+  var AXIS_START = new Date(2026,0,24), AXIS_END = new Date(2026,10,5);
   var totalDays = (AXIS_END - AXIS_START) / 86400000;
   function pct(d){ return ((d-AXIS_START)/86400000) / totalDays * 100; }
 
@@ -843,6 +846,9 @@
       var fbar = document.createElement('div');
       fbar.className='cal-bar-func'; fbar.style.left=fx0+'%'; fbar.style.setProperty('--fw', fw+'%');
       track.appendChild(fbar);
+      var fpct = document.createElement('div');
+      fpct.className='cal-pct cal-pct-func'; fpct.style.left=fx0+'%'; fpct.textContent='100%';
+      track.appendChild(fpct);
       track.appendChild(segTip(fx0, fw, 'Funcional', 'Definición y validación del documento funcional.'));
     }
 
