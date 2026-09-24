@@ -330,6 +330,20 @@
   .slide.in .cal-pct{opacity:1;}
   .cal-row.activo .cal-pct{font-size:12.5px; color:var(--ink);}
   .cal-row.cerrado .cal-pct{color:var(--green); font-weight:700; font-size:10.5px;}
+  /* Empezada pero sin fecha de fin: se desvanece hacia la derecha */
+  .cal-open{
+    position:absolute; top:12px; height:11px; border-radius:6px 0 0 6px;
+    background:linear-gradient(90deg, var(--kpmg) 0%, rgba(0,51,141,.5) 32%, rgba(0,51,141,0) 100%);
+    transform-origin:left center; transform:scaleX(0);
+    transition:transform 1.15s cubic-bezier(.22,1,.36,1); transition-delay:calc(var(--d) + .3s);
+  }
+  .slide.in .cal-open{transform:scaleX(1);}
+  .cal-open-label{
+    position:absolute; top:26px; font:500 10.5px/1 var(--f-mono); color:var(--text-faint);
+    font-style:italic; white-space:nowrap;
+    opacity:0; transition:opacity .5s var(--ease); transition-delay:calc(var(--d) + .95s);
+  }
+  .slide.in .cal-open-label{opacity:1;}
   .cal-empty{font:400 13px/1 var(--f-body); color:var(--text-faint); font-style:italic;}
   .cal-approx{position:absolute; top:13px; height:8px; border-radius:5px; border:1.5px dashed var(--hairline-strong); background:transparent;}
   .cal-approx-label{position:absolute; top:26px; font:500 10.5px/1 var(--f-mono); color:var(--text-faint); font-style:italic; text-align:center; white-space:nowrap;}
@@ -736,7 +750,7 @@
     ]},
     {cod:'RPR04', estado:'activo', ini:new Date(2026,6,27), fin:new Date(2026,7,28), avance:.93, flags:[]},
     {cod:'RG10',  estado:'activo', ini:new Date(2026,6,15), fin:new Date(2026,7,28), avance:.94, flags:[]},
-    {cod:'REP08', ini:null, fin:null, avance:null, flags:[]},
+    {cod:'REP08', estado:'activo', ini:null, fin:null, avance:null, flags:[], iniAbierto:new Date(2026,8,1)},
     {cod:'Formaciones', ini:null, fin:null, avance:null, flags:[], mesAprox:[new Date(2026,9,1), new Date(2026,9,31)]},
     {cod:'REP07', estado:'cerrado', ini:new Date(2026,2,2), fin:new Date(2026,5,26), avance:1, flags:[]},
     {cod:'REP06', estado:'cerrado', ini:new Date(2026,3,1), fin:new Date(2026,5,26), avance:1, flags:[]},
@@ -812,6 +826,16 @@
 
         track.appendChild(m);
       });
+    } else if(d.iniAbierto){
+      // Iniciativa arrancada sin fecha de fin: la barra se desvanece hacia la derecha
+      var ax0 = pct(d.iniAbierto);
+      var open = document.createElement('div');
+      open.className='cal-open'; open.style.left=ax0+'%'; open.style.width=(100-ax0)+'%';
+      track.appendChild(open);
+      var openLbl = document.createElement('div');
+      openLbl.className='cal-open-label'; openLbl.style.left=ax0+'%';
+      openLbl.textContent='Inicio sept. · fin por definir';
+      track.appendChild(openLbl);
     } else if(d.mesAprox){
       var mx0 = pct(d.mesAprox[0]), mx1 = pct(d.mesAprox[1]);
       var approx = document.createElement('div');
