@@ -338,6 +338,7 @@
     transition:transform 1.15s cubic-bezier(.22,1,.36,1); transition-delay:calc(var(--d) + .3s);
   }
   .slide.in .cal-open{transform:scaleX(1);}
+  .cal-row.activo .cal-open-lbl{font-weight:500; font-size:11px; color:var(--text-low);}
   .cal-empty{font:400 13px/1 var(--f-body); color:var(--text-faint); font-style:italic;}
   .cal-approx{position:absolute; top:13px; height:8px; border-radius:5px; border:1.5px dashed var(--hairline-strong); background:transparent;}
   .cal-approx-label{position:absolute; top:26px; font:500 10.5px/1 var(--f-mono); color:var(--text-faint); font-style:italic; text-align:center; white-space:nowrap;}
@@ -742,8 +743,8 @@
       {date:new Date(2026,6,22), label:'Validación del entorno', msg:'Pendiente de validar el entorno donde se desplegará la solución.'},
       {date:new Date(2026,8,4), label:'Integración Salesforce', msg:'Pendiente de decidir el servicio de integración con Salesforce necesario, para no incurrir en sobrecoste.'}
     ]},
-    {cod:'RPR04', estado:'activo', ini:new Date(2026,6,27), fin:new Date(2026,7,28), avance:.93, flags:[]},
-    {cod:'RG10',  estado:'activo', ini:new Date(2026,6,15), fin:new Date(2026,7,28), avance:.94, flags:[]},
+    {cod:'RPR04', estado:'activo', ini:new Date(2026,6,27), fin:new Date(2026,8,23), avance:.93, flags:[]},
+    {cod:'RG10',  estado:'activo', ini:new Date(2026,6,15), fin:new Date(2026,8,23), avance:.94, flags:[]},
     {cod:'REP08', estado:'activo', ini:null, fin:null, avance:null, flags:[], iniAbierto:new Date(2026,8,1)},
     {cod:'Formaciones', ini:null, fin:null, avance:null, flags:[], mesAprox:[new Date(2026,9,1), new Date(2026,9,31)]},
     {cod:'REP07', estado:'cerrado', ini:new Date(2026,2,2), fin:new Date(2026,5,26), avance:1, flags:[]},
@@ -827,8 +828,8 @@
       open.className='cal-open'; open.style.left=ax0+'%'; open.style.width=(100-ax0)+'%';
       track.appendChild(open);
       var openLbl = document.createElement('div');
-      openLbl.className='cal-pct'; openLbl.style.left=ax0+'%';
-      openLbl.textContent='DESDE SEPT.';
+      openLbl.className='cal-pct cal-open-lbl'; openLbl.style.left=ax0+'%';
+      openLbl.textContent='desde septiembre';
       track.appendChild(openLbl);
     } else if(d.mesAprox){
       var mx0 = pct(d.mesAprox[0]), mx1 = pct(d.mesAprox[1]);
