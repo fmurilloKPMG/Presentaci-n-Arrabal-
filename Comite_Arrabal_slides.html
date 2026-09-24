@@ -15,7 +15,7 @@
     --kpmg:#00338D; --kpmg-bright:#1E49E2; --kpmg-tint:#EAF0FD;
     --red:#A6192E; --red-tint:#F9E7EA;
     --amber:#9A6700; --amber-tint:#FBF1DD;
-    --green:#0E7A4F; --green-tint:#E7F4EE;
+    --green:#0E7A4F; --green-tint:#E7F4EE; --green-vivid:#14A868;
     --gray:#6A7890;
     --ease: cubic-bezier(.23,1,.32,1);
     --f-body:"Inter",-apple-system,"Segoe UI",Arial,sans-serif;
@@ -262,6 +262,10 @@
     transition-delay:calc(var(--d) + .12s);
   }
   .slide.in .cal-row{opacity:1; transform:translateY(0);}
+  /* El transform de la animación crea un contexto de apilamiento por fila, así
+     que el tooltip de un rombo quedaría por debajo de las filas siguientes:
+     al pasar por encima se eleva la fila entera. */
+  .cal-row:hover, .cal-row:focus-within{z-index:30;}
   .cal-row:last-child{border-bottom:none;}
   .cal-code{font:700 14px/1.3 var(--f-mono); color:var(--kpmg); transition:color .3s var(--ease);}
 
@@ -273,7 +277,7 @@
   }
   .cal-row.activo .cal-code{color:var(--kpmg); font-size:15px;}
   /* Finalizadas: presentes pero en segundo plano */
-  .cal-row.cerrado .cal-code{color:var(--text-faint); font-weight:600;}
+  .cal-row.cerrado .cal-code{color:var(--green); font-weight:700;}
 
   .cal-track{position:relative; height:34px;}
   .cal-grid{position:absolute; inset:0;}
@@ -304,11 +308,12 @@
 
   .cal-row.cerrado .cal-bar-bg{display:none;}
   .cal-row.cerrado .cal-bar-fill{
-    top:15px; height:5px; border-radius:3px; background:rgba(14,122,79,.42); box-shadow:none;
+    top:14px; height:7px; border-radius:4px; box-shadow:0 2px 8px rgba(20,168,104,.28);
+    background:linear-gradient(90deg, var(--green), var(--green-vivid));
   }
   .cal-row.cerrado .cal-bar-fill::after{
-    content:'✓'; position:absolute; right:-15px; top:50%; transform:translateY(-50%);
-    font:700 11px/1 var(--f-mono); color:var(--green);
+    content:'✓'; position:absolute; right:-16px; top:50%; transform:translateY(-50%);
+    font:700 12px/1 var(--f-mono); color:var(--green-vivid);
   }
 
   .cal-pct{
@@ -317,7 +322,7 @@
   }
   .slide.in .cal-pct{opacity:1;}
   .cal-row.activo .cal-pct{font-size:12.5px; color:var(--ink);}
-  .cal-row.cerrado .cal-pct{color:var(--text-faint); font-weight:600; font-size:10px;}
+  .cal-row.cerrado .cal-pct{color:var(--green); font-weight:700; font-size:10.5px;}
   .cal-empty{font:400 13px/1 var(--f-body); color:var(--text-faint); font-style:italic;}
   .cal-approx{position:absolute; top:13px; height:8px; border-radius:5px; border:1.5px dashed var(--hairline-strong); background:transparent;}
   .cal-approx-label{position:absolute; top:26px; font:500 10.5px/1 var(--f-mono); color:var(--text-faint); font-style:italic; text-align:center; white-space:nowrap;}
@@ -568,7 +573,7 @@
   <div class="slide-inner">
     <p class="eyebrow">02 · Calendario</p>
     <h2 class="slide-title">Calendario</h2>
-    <p class="slide-sub">En azul y destacado, lo que está en desarrollo; en verde y más tenue, lo ya finalizado. Los marcadores en ámbar señalan los dos puntos pendientes de RPR03 — pasa el cursor sobre cada rombo para ver el detalle.</p>
+    <p class="slide-sub">En azul, lo que está en desarrollo; en verde, lo ya finalizado. Los marcadores en ámbar señalan los dos puntos pendientes de RPR03 — pasa el cursor sobre cada rombo para ver el detalle.</p>
 
     <div class="cal reveal r1">
       <div class="cal-axis" id="calAxis"></div>
@@ -578,7 +583,7 @@
     <div class="legend reveal r2">
       <div class="legend-item"><span class="legend-swatch" style="background:linear-gradient(90deg,var(--kpmg),var(--kpmg-bright)); height:10px;"></span>En desarrollo</div>
       <div class="legend-item"><span class="legend-swatch" style="background:var(--surface-2); border:1px solid var(--hairline)"></span>Previsto</div>
-      <div class="legend-item"><span class="legend-swatch" style="background:rgba(14,122,79,.42); height:5px;"></span>Finalizada</div>
+      <div class="legend-item"><span class="legend-swatch" style="background:linear-gradient(90deg,var(--green),var(--green-vivid)); height:7px;"></span>Finalizada</div>
       <div class="legend-item"><span style="width:9px;height:9px;background:var(--amber);transform:rotate(45deg);display:inline-block;border-radius:1px;"></span>Pendiente — ver detalle al pasar el cursor</div>
       <div class="legend-item"><span class="legend-swatch" style="background:var(--kpmg-bright); width:2px;"></span>Comité · 28 sept.</div>
     </div>
