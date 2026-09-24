@@ -132,7 +132,10 @@
   .meta-row dd{margin:0; font:600 15px/1.3 var(--f-body); color:var(--ink);}
 
   /* ── Estado: tabla refinada ── */
-  .status-table{width:100%; border-collapse:collapse;}
+  /* position+z-index para que los tooltips de las filas queden por encima de
+     la nota al pie: la animación .reveal le da transform a ambas y eso crea
+     un contexto de apilamiento en cada una. */
+  .status-table{width:100%; border-collapse:collapse; position:relative; z-index:10;}
   .status-table thead th{
     text-align:left; font:500 10.5px/1 var(--f-mono); letter-spacing:.1em; text-transform:uppercase;
     color:var(--text-faint); padding:0 16px 14px 0; border-bottom:1px solid var(--hairline-strong); font-weight:500;
@@ -832,6 +835,21 @@
   // Etiqueta "hoy" solo en la primera fila
   var firstToday = rows.querySelector('.cal-today');
   if(firstToday){ var lbl=document.createElement('span'); lbl.textContent='COMITÉ'; firstToday.appendChild(lbl); }
+
+  // Los tooltips de la tabla de estado se abren hacia abajo salvo que no quepan
+  Array.prototype.forEach.call(document.querySelectorAll('.code-trigger'), function(trigger){
+    var tip = trigger.querySelector('.row-tip');
+    if(!tip) return;
+    function place(){
+      tip.classList.remove('row-tip-up');
+      var r = trigger.getBoundingClientRect();
+      if(r.bottom + 14 + tip.offsetHeight > window.innerHeight - 12){
+        tip.classList.add('row-tip-up');
+      }
+    }
+    trigger.addEventListener('mouseenter', place);
+    trigger.addEventListener('focus', place);
+  });
 })();
 </script>
 </body>
