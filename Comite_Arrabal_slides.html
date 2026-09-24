@@ -330,6 +330,33 @@
   .slide.in .cal-pct{opacity:1;}
   .cal-row.activo .cal-pct{font-size:12.5px; color:var(--ink);}
   .cal-row.cerrado .cal-pct{color:var(--green); font-weight:700; font-size:10.5px;}
+  /* Fase funcional: barra fina y en azul apagado, antes de la construcción */
+  .cal-bar-func{
+    position:absolute; top:15px; height:5px; border-radius:3px; background:rgba(0,51,141,.3);
+    width:0; transition:width 1.1s cubic-bezier(.22,1,.36,1); transition-delay:calc(var(--d) + .18s);
+  }
+  .slide.in .cal-bar-func{width:var(--fw);}
+
+  /* Zona de hover que identifica cada fase */
+  .cal-seg{position:absolute; top:7px; height:21px; z-index:4; cursor:help;}
+  .cal-seg-tip{
+    position:absolute; left:50%; top:calc(100% + 10px);
+    transform:translateX(-50%) translateY(-8px) scale(.72); transform-origin:top center;
+    width:212px; background:var(--ink); color:#fff; border-radius:10px; padding:11px 13px;
+    font:400 11.5px/1.5 var(--f-body); text-align:left; z-index:20;
+    opacity:0; pointer-events:none; box-shadow:0 14px 30px rgba(12,35,60,.3);
+    transition:opacity .26s cubic-bezier(.34,1.56,.64,1), transform .26s cubic-bezier(.34,1.56,.64,1);
+  }
+  .cal-seg-tip strong{
+    display:block; margin-bottom:3px; color:rgba(255,255,255,.6);
+    font:600 10.5px/1.3 var(--f-mono); text-transform:uppercase; letter-spacing:.05em;
+  }
+  .cal-seg-tip::after{
+    content:''; position:absolute; bottom:100%; left:50%; transform:translateX(-50%);
+    border:6px solid transparent; border-bottom-color:var(--ink);
+  }
+  .cal-seg:hover .cal-seg-tip{opacity:1; transform:translateX(-50%) translateY(0) scale(1);}
+
   /* Empezada pero sin fecha de fin: se desvanece hacia la derecha */
   .cal-open{
     position:absolute; top:12px; height:11px; border-radius:6px 0 0 6px;
@@ -596,6 +623,7 @@
     </div>
 
     <div class="legend reveal r2">
+      <div class="legend-item"><span class="legend-swatch" style="background:rgba(0,51,141,.3); height:5px;"></span>Funcional</div>
       <div class="legend-item"><span class="legend-swatch" style="background:linear-gradient(90deg,var(--kpmg),var(--kpmg-bright)); height:10px;"></span>En desarrollo</div>
       <div class="legend-item"><span class="legend-swatch" style="background:var(--surface-2); border:1px solid var(--hairline)"></span>Previsto</div>
       <div class="legend-item"><span class="legend-swatch" style="background:linear-gradient(90deg,var(--green),var(--green-vivid)); height:7px;"></span>Finalizada</div>
@@ -714,13 +742,14 @@
 
   // ── Calendario: construido desde los mismos datos reales del deck ──
   var HOY = new Date(2026,8,28); // fecha del comité
-  var AXIS_START = new Date(2026,2,1), AXIS_END = new Date(2026,10,5);
+  var AXIS_START = new Date(2026,1,1), AXIS_END = new Date(2026,10,5);
   var totalDays = (AXIS_END - AXIS_START) / 86400000;
   function pct(d){ return ((d-AXIS_START)/86400000) / totalDays * 100; }
 
   // [inicio, fin, etiqueta] — la etiqueta se centra en su banda para que no
   // parezca que una barra que acaba a fin de mes entra en el mes siguiente.
   var months = [
+    [new Date(2026,1,1), new Date(2026,2,1), 'FEB'],
     [new Date(2026,2,1), new Date(2026,3,1), 'MAR'],
     [new Date(2026,3,1), new Date(2026,4,1), 'ABR'],
     [new Date(2026,4,1), new Date(2026,5,1), 'MAY'],
@@ -739,12 +768,12 @@
   });
 
   var data = [
-    {cod:'RPR03', estado:'activo', ini:new Date(2026,6,14), fin:new Date(2026,9,9), avance:.71, flags:[
+    {cod:'RPR03', estado:'activo', funcional:{ini:new Date(2026,2,2), fin:new Date(2026,5,26)}, ini:new Date(2026,6,14), fin:new Date(2026,9,9), avance:.71, flags:[
       {date:new Date(2026,6,22), label:'Validación del entorno', msg:'Pendiente de validar el entorno donde se desplegará la solución.'},
       {date:new Date(2026,8,4), label:'Integración Salesforce', msg:'Pendiente de decidir el servicio de integración con Salesforce necesario, para no incurrir en sobrecoste.'}
     ]},
-    {cod:'RPR04', estado:'activo', ini:new Date(2026,6,27), fin:new Date(2026,8,23), avance:.93, flags:[]},
-    {cod:'RG10',  estado:'activo', ini:new Date(2026,6,15), fin:new Date(2026,8,23), avance:.94, flags:[]},
+    {cod:'RPR04', estado:'activo', funcional:{ini:new Date(2026,2,2), fin:new Date(2026,6,15)}, ini:new Date(2026,6,27), fin:new Date(2026,8,23), avance:.93, flags:[]},
+    {cod:'RG10',  estado:'activo', funcional:{ini:new Date(2026,1,2), fin:new Date(2026,5,26)}, ini:new Date(2026,6,15), fin:new Date(2026,8,23), avance:.94, flags:[]},
     {cod:'REP08', estado:'activo', ini:null, fin:null, avance:null, flags:[], iniAbierto:new Date(2026,8,1)},
     {cod:'Formaciones', ini:null, fin:null, avance:null, flags:[], mesAprox:[new Date(2026,9,1), new Date(2026,9,31)]},
     {cod:'REP07', estado:'cerrado', ini:new Date(2026,2,2), fin:new Date(2026,5,26), avance:1, flags:[]},
@@ -754,6 +783,21 @@
 
   var OCT_START = new Date(2026,9,1), OCT_END = new Date(2026,10,1);
   var octX0 = pct(OCT_START), octX1 = pct(OCT_END);
+
+  // Zona invisible sobre una barra que, al pasar el ratón, dice de qué fase es
+  function segTip(x, w, titulo, texto){
+    var seg = document.createElement('div');
+    seg.className = 'cal-seg';
+    seg.style.left = x + '%'; seg.style.width = w + '%';
+    var tip = document.createElement('div');
+    tip.className = 'cal-seg-tip';
+    var st = document.createElement('strong');
+    st.textContent = titulo;
+    tip.appendChild(st);
+    tip.appendChild(document.createTextNode(texto));
+    seg.appendChild(tip);
+    return seg;
+  }
 
   var rows = document.getElementById('calRows');
   data.forEach(function(d, rowIdx){
@@ -788,6 +832,15 @@
     });
     track.appendChild(grid);
 
+    // Fase funcional previa (documento funcional cerrado antes de construir)
+    if(d.funcional){
+      var fx0 = pct(d.funcional.ini), fw = pct(d.funcional.fin) - fx0;
+      var fbar = document.createElement('div');
+      fbar.className='cal-bar-func'; fbar.style.left=fx0+'%'; fbar.style.setProperty('--fw', fw+'%');
+      track.appendChild(fbar);
+      track.appendChild(segTip(fx0, fw, 'Funcional', 'Definición y validación del documento funcional.'));
+    }
+
     if(d.ini){
       var x0 = pct(d.ini), x1 = pct(d.fin), w = x1-x0;
       var bg = document.createElement('div');
@@ -799,6 +852,9 @@
       var pctLabel = document.createElement('div');
       pctLabel.className='cal-pct'; pctLabel.style.left=x0+'%'; pctLabel.textContent=Math.round(d.avance*100)+'%';
       track.appendChild(pctLabel);
+      if(d.funcional){
+        track.appendChild(segTip(x0, w, 'Construcción', 'Desarrollo de la iniciativa sobre el funcional ya cerrado.'));
+      }
       d.flags.forEach(function(r, flagIdx){
         var m = document.createElement('div');
         m.className='cal-flag'; m.style.left = pct(r.date)+'%';
