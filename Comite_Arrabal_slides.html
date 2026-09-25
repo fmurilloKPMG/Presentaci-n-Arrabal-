@@ -747,11 +747,12 @@
 
       <ul class="next-list">
         <li class="next-item" style="--i:0"><span class="next-code">RG09</span><span class="next-name">Centralización de agendas</span><span class="next-area">Gobierno</span></li>
-        <li class="next-item" style="--i:1"><span class="next-code">REP05</span><span class="next-name">Acciones contra la pérdida/corrupción de datos</span><span class="next-area">Estrategia y Propósito</span></li>
-        <li class="next-item" style="--i:2"><span class="next-code">RG04</span><span class="next-name">Creación de un modelo de reporting automatizado</span><span class="next-area">Gobierno</span></li>
-        <li class="next-item" style="--i:3"><span class="next-code">RPT12</span><span class="next-name">Feedback automatizado del personal interno para impulsar la mejora en proyectos</span><span class="next-area">Persona y Talentos</span></li>
-        <li class="next-item" style="--i:4"><span class="next-code">REP03</span><span class="next-name">Diseño de un modelo integrado para generación de alertas</span><span class="next-area">Estrategia y Propósito</span></li>
-        <li class="next-item" style="--i:5"><span class="next-code">RPT02</span><span class="next-name">Gestión de formación y matriz de skills</span><span class="next-area">Persona y Talentos</span></li>
+        <li class="next-item" style="--i:1"><span class="next-code">RPR02</span><span class="next-name">WIP (Work In Progress)</span><span class="next-area">Proyectos</span></li>
+        <li class="next-item" style="--i:2"><span class="next-code">REP05</span><span class="next-name">Acciones contra la pérdida/corrupción de datos</span><span class="next-area">Estrategia y Propósito</span></li>
+        <li class="next-item" style="--i:3"><span class="next-code">RG04</span><span class="next-name">Creación de un modelo de reporting automatizado</span><span class="next-area">Gobierno</span></li>
+        <li class="next-item" style="--i:4"><span class="next-code">RPT12</span><span class="next-name">Feedback automatizado del personal interno para impulsar la mejora en proyectos</span><span class="next-area">Persona y Talentos</span></li>
+        <li class="next-item" style="--i:5"><span class="next-code">REP03</span><span class="next-name">Diseño de un modelo integrado para generación de alertas</span><span class="next-area">Estrategia y Propósito</span></li>
+        <li class="next-item" style="--i:6"><span class="next-code">RPT02</span><span class="next-name">Gestión de formación y matriz de skills</span><span class="next-area">Persona y Talentos</span></li>
       </ul>
     </div>
   </div>
@@ -1080,7 +1081,7 @@
   var counterEl = document.getElementById('next2027');
   if(counterEl){
     var quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var meta = 6;
+    var meta = document.querySelectorAll('.next-item').length;
     if(quieto){
       counterEl.textContent = '0' + meta;
     } else {
