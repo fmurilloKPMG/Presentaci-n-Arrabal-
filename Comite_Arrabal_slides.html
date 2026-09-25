@@ -418,13 +418,21 @@
 
   /* Transversal: se ejecuta durante todo el proyecto, sin % de avance */
   .cal-bar-trans{
-    position:absolute; top:14px; height:7px; border-radius:4px;
+    position:absolute; top:14px; height:7px; border-radius:4px 0 0 4px;
     background:repeating-linear-gradient(135deg, rgba(0,51,141,.18) 0 6px, rgba(0,51,141,.05) 6px 12px);
-    border:1px dashed rgba(0,51,141,.35);
+    border:1px dashed rgba(0,51,141,.35); border-right:none;
     transform:scaleX(0); transform-origin:left center;
     transition:transform 1s cubic-bezier(.22,1,.36,1); transition-delay:calc(var(--d) + .3s);
   }
   .slide.in .cal-bar-trans{transform:scaleX(1);}
+  /* flecha "sigue" al final, contenida dentro de la propia barra para que no
+     se salga del gráfico */
+  .cal-bar-trans::after{
+    content:''; position:absolute; right:0; top:50%; transform:translateY(-50%);
+    width:0; height:0;
+    border-top:5px solid transparent; border-bottom:5px solid transparent;
+    border-left:8px solid rgba(0,51,141,.55);
+  }
   .cal-row.activo .cal-pct-trans{font-weight:500; font-style:italic; color:var(--text-low); font-size:10.5px;}
 
   /* Empezada pero sin fecha de fin: se desvanece hacia la derecha */
