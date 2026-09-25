@@ -417,23 +417,24 @@
   .cal-seg:hover .cal-seg-tip{opacity:1; transform:translateX(-50%) translateY(0) scale(1);}
 
   /* Transversal: se ejecuta durante todo el proyecto, sin % de avance */
-  /* Línea de tiempo: punto de inicio, trazo y punta de flecha. Todo dentro de
-     la propia caja, y se revela con clip-path para no deformar la flecha. */
+  /* Barra rayada que termina en punta de flecha. Todo dentro de la propia caja
+     y revelado con clip-path, para que la flecha no se deforme ni sobresalga. */
   .cal-bar-trans{
     position:absolute; top:11px; height:13px;
-    background:linear-gradient(90deg, rgba(0,51,141,.62), rgba(0,51,141,.42)) 3px 50% / calc(100% - 12px) 3px no-repeat;
     clip-path:inset(0 100% 0 0);
-    transition:clip-path 1.3s cubic-bezier(.22,1,.36,1); transition-delay:calc(var(--d) + .3s);
+    transition:clip-path 1.2s cubic-bezier(.22,1,.36,1); transition-delay:calc(var(--d) + .3s);
   }
   .slide.in .cal-bar-trans{clip-path:inset(0 0 0 0);}
   .cal-bar-trans::before{
-    content:''; position:absolute; left:0; top:50%; width:7px; height:7px; margin-top:-3.5px;
-    border-radius:50%; background:var(--kpmg);
+    content:''; position:absolute; left:0; right:9px; top:3px; height:7px; box-sizing:border-box;
+    border-radius:4px 0 0 4px;
+    background:repeating-linear-gradient(135deg, rgba(0,51,141,.18) 0 6px, rgba(0,51,141,.05) 6px 12px);
+    border:1px dashed rgba(0,51,141,.35); border-right:none;
   }
   .cal-bar-trans::after{
     content:''; position:absolute; right:0; top:50%; transform:translateY(-50%);
-    border-top:6px solid transparent; border-bottom:6px solid transparent;
-    border-left:10px solid rgba(0,51,141,.46);
+    border-top:6.5px solid transparent; border-bottom:6.5px solid transparent;
+    border-left:10px solid rgba(0,51,141,.38);
   }
   .cal-row.activo .cal-pct-trans{font-weight:500; font-style:italic; color:var(--text-low); font-size:10.5px;}
 
@@ -472,10 +473,12 @@
   }
   .legend{display:flex; gap:28px; margin-top:36px; flex-wrap:wrap;}
   .legend-item{display:flex; align-items:center; gap:9px; font:400 12.5px/1 var(--f-body); color:var(--text-mid);}
-  .legend-trans{position:relative; width:22px; height:9px; flex:none;
-    background:rgba(0,51,141,.55) 0 50% / calc(100% - 6px) 2px no-repeat;}
+  .legend-trans{position:relative; width:24px; height:10px; flex:none;}
+  .legend-trans::before{content:''; position:absolute; left:0; right:7px; top:2px; height:6px; box-sizing:border-box;
+    border-radius:3px 0 0 3px; border:1px dashed rgba(0,51,141,.4); border-right:none;
+    background:repeating-linear-gradient(135deg, rgba(0,51,141,.3) 0 4px, rgba(0,51,141,.08) 4px 8px);}
   .legend-trans::after{content:''; position:absolute; right:0; top:50%; transform:translateY(-50%);
-    border-top:4px solid transparent; border-bottom:4px solid transparent; border-left:7px solid rgba(0,51,141,.5);}
+    border-top:5px solid transparent; border-bottom:5px solid transparent; border-left:7px solid rgba(0,51,141,.4);}
   .legend-swatch{width:18px; height:7px; border-radius:4px;}
 
   /* ── Comentarios ── */
