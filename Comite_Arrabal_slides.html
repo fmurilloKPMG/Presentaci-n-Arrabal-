@@ -195,6 +195,8 @@
   .tag.pendiente::before{background:var(--text-faint);}
   .tag.cerrada{background:var(--green); color:#fff; border-color:var(--green);}
   .tag.cerrada::before{background:#fff;}
+  .tag.transversal{background:var(--kpmg-tint); color:var(--kpmg); border-color:rgba(0,51,141,.22);}
+  .tag.transversal::before{background:var(--kpmg); border-radius:0; width:7px; height:7px; transform:rotate(45deg);}
 
   .prog{display:flex; align-items:center; gap:10px; min-width:120px;}
   .prog-track{flex:1; height:3px; background:var(--hairline-strong); border-radius:2px; overflow:hidden;}
@@ -414,6 +416,17 @@
   }
   .cal-seg:hover .cal-seg-tip{opacity:1; transform:translateX(-50%) translateY(0) scale(1);}
 
+  /* Transversal: se ejecuta durante todo el proyecto, sin % de avance */
+  .cal-bar-trans{
+    position:absolute; top:14px; height:7px; border-radius:4px;
+    background:repeating-linear-gradient(135deg, rgba(0,51,141,.18) 0 6px, rgba(0,51,141,.05) 6px 12px);
+    border:1px dashed rgba(0,51,141,.35);
+    transform:scaleX(0); transform-origin:left center;
+    transition:transform 1s cubic-bezier(.22,1,.36,1); transition-delay:calc(var(--d) + .3s);
+  }
+  .slide.in .cal-bar-trans{transform:scaleX(1);}
+  .cal-row.activo .cal-pct-trans{font-weight:500; font-style:italic; color:var(--text-low); font-size:10.5px;}
+
   /* Empezada pero sin fecha de fin: se desvanece hacia la derecha */
   .cal-open{
     position:absolute; top:12px; height:11px; border-radius:6px 0 0 6px;
@@ -583,7 +596,7 @@
   <div class="slide-inner">
     <p class="eyebrow">01 · Estado</p>
     <h2 class="slide-title slide-title-wide">Estado de las iniciativas <span class="title-year">2026</span></h2>
-    <p class="slide-sub">Cuatro iniciativas en curso, tres ya cerradas o en decisión final, más las formaciones previstas para octubre. El estado refleja el avance del desarrollo, no solo el campo "Estado" del reporte de origen. Pasa el cursor sobre cada código para ver el detalle.</p>
+    <p class="slide-sub">Cuatro iniciativas en curso, tres ya cerradas o en decisión final y dos transversales que acompañan todo el proyecto, más las formaciones previstas para octubre. El estado refleja el avance del desarrollo, no solo el campo "Estado" del reporte de origen. Pasa el cursor sobre cada código para ver el detalle.</p>
 
     <table class="status-table reveal r1">
       <thead>
@@ -672,6 +685,24 @@
           <td><span class="tag cerrada">Finalizada</span></td>
           <td><span style="color:var(--text-faint); font:700 13px var(--f-mono);">Entregado</span></td>
         </tr>
+        <tr>
+          <td class="code-cell"><span class="code-trigger" tabindex="0">REP12
+            <div class="row-tip">Se ejecuta a lo largo de todo el proyecto, en paralelo a las demás iniciativas. Se van identificando y registrando las integraciones de software necesarias con el CRM a medida que surgen.</div>
+          </span></td>
+          <td class="name-cell">Integración de softwares de gestión con el CRM</td>
+          <td class="desc-cell">Identificación y registro de las integraciones necesarias con el CRM</td>
+          <td><span class="tag transversal">Transversal</span></td>
+          <td><span style="color:var(--text-faint); font:700 13px var(--f-mono);">Continua</span></td>
+        </tr>
+        <tr>
+          <td class="code-cell"><span class="code-trigger" tabindex="0">PMO
+            <div class="row-tip">Se ejecuta a lo largo de todo el proyecto: gestión del cambio, coordinación entre áreas y seguimiento de todas las iniciativas.</div>
+          </span></td>
+          <td class="name-cell">Dirección y gestión del cambio del proyecto</td>
+          <td class="desc-cell">Coordinación, gestión del cambio y seguimiento transversal de todas las iniciativas</td>
+          <td><span class="tag transversal">Transversal</span></td>
+          <td><span style="color:var(--text-faint); font:700 13px var(--f-mono);">Continua</span></td>
+        </tr>
       </tbody>
     </table>
   </div>
@@ -723,6 +754,7 @@
       <div class="legend-item"><span class="legend-swatch" style="background:linear-gradient(90deg,var(--kpmg),var(--kpmg-bright)); height:10px;"></span>En desarrollo</div>
       <div class="legend-item"><span class="legend-swatch" style="background:var(--surface-2); border:1px solid var(--hairline)"></span>Previsto</div>
       <div class="legend-item"><span class="legend-swatch" style="background:linear-gradient(90deg,var(--green),var(--green-vivid)); height:7px;"></span>Finalizado</div>
+      <div class="legend-item"><span class="legend-swatch" style="background:repeating-linear-gradient(135deg, rgba(0,51,141,.35) 0 4px, rgba(0,51,141,.08) 4px 8px); border:1px dashed rgba(0,51,141,.4);"></span>Transversal</div>
       <div class="legend-item"><span style="width:9px;height:9px;background:var(--amber);transform:rotate(45deg);display:inline-block;border-radius:1px;"></span>Pendiente — ver detalle al pasar el cursor</div>
       <div class="legend-item"><span class="legend-swatch" style="background:var(--kpmg-bright); width:2px;"></span>Comité · 28 sept.</div>
     </div>
@@ -876,7 +908,9 @@
     {cod:'Formaciones', ini:null, fin:null, avance:null, flags:[], mesAprox:[new Date(2026,9,1), new Date(2026,9,31)]},
     {cod:'REP07', estado:'cerrado', ini:new Date(2026,2,2), fin:new Date(2026,5,26), avance:1, flags:[]},
     {cod:'REP06', estado:'cerrado', ini:new Date(2026,3,1), fin:new Date(2026,5,26), avance:1, flags:[]},
-    {cod:'REC05', estado:'cerrado', ini:new Date(2026,6,1), fin:new Date(2026,8,5), avance:1, flags:[]}
+    {cod:'REC05', estado:'cerrado', ini:new Date(2026,6,1), fin:new Date(2026,8,5), avance:1, flags:[]},
+    {cod:'REP12', estado:'activo', transversal:true, ini:AXIS_START, fin:AXIS_END, flags:[]},
+    {cod:'PMO',   estado:'activo', transversal:true, ini:AXIS_START, fin:AXIS_END, flags:[]}
   ];
 
   var OCT_START = new Date(2026,9,1), OCT_END = new Date(2026,10,1);
@@ -942,7 +976,15 @@
       track.appendChild(segTip(fx0, fw, 'Funcional', 'Definición y validación del documento funcional.'));
     }
 
-    if(d.ini){
+    if(d.transversal){
+      var tx0 = pct(d.ini), tx1 = pct(d.fin), tw = tx1 - tx0;
+      var tbar = document.createElement('div');
+      tbar.className='cal-bar-trans'; tbar.style.left=tx0+'%'; tbar.style.width=tw+'%';
+      track.appendChild(tbar);
+      var tLabel = document.createElement('div');
+      tLabel.className='cal-pct cal-pct-trans'; tLabel.style.left=tx0+'%'; tLabel.textContent='Transversal · todo el proyecto';
+      track.appendChild(tLabel);
+    } else if(d.ini){
       var x0 = pct(d.ini), x1 = pct(d.fin), w = x1-x0;
       var bg = document.createElement('div');
       bg.className='cal-bar-bg'; bg.style.left=x0+'%'; bg.style.width=w+'%';
