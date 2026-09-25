@@ -772,7 +772,6 @@
 
     <div class="legend reveal r2">
       <div class="legend-item"><span class="legend-swatch" style="background:linear-gradient(90deg,var(--kpmg),var(--kpmg-bright)); height:10px;"></span>En desarrollo</div>
-      <div class="legend-item"><span class="legend-swatch" style="background:var(--surface-2); border:1px solid var(--hairline)"></span>Previsto</div>
       <div class="legend-item"><span class="legend-swatch" style="background:linear-gradient(90deg,var(--green),var(--green-vivid)); height:7px;"></span>Finalizado</div>
       <div class="legend-item"><span class="legend-trans"></span>Transversal · todo el proyecto</div>
       <div class="legend-item"><span style="width:9px;height:9px;background:var(--amber);transform:rotate(45deg);display:inline-block;border-radius:1px;"></span>Pendiente — ver detalle al pasar el cursor</div>
@@ -929,8 +928,8 @@
     {cod:'REP07', estado:'cerrado', ini:new Date(2026,2,2), fin:new Date(2026,5,26), avance:1, flags:[]},
     {cod:'REP06', estado:'cerrado', ini:new Date(2026,3,1), fin:new Date(2026,5,26), avance:1, flags:[]},
     {cod:'REC05', estado:'cerrado', ini:new Date(2026,6,1), fin:new Date(2026,8,5), avance:1, flags:[]},
-    {cod:'REP12', estado:'activo', transversal:true, ini:new Date(2026,1,1), fin:new Date(2026,10,1), flags:[]},
-    {cod:'PMO',   estado:'activo', transversal:true, ini:new Date(2026,1,1), fin:new Date(2026,10,1), flags:[]}
+    {cod:'REP12', estado:'activo', transversal:true, ini:new Date(2026,1,1), fin:new Date(2026,9,1), flags:[]},
+    {cod:'PMO',   estado:'activo', transversal:true, ini:new Date(2026,1,1), fin:new Date(2026,9,1), flags:[]}
   ];
 
   var OCT_START = new Date(2026,9,1), OCT_END = new Date(2026,10,1);
@@ -1010,7 +1009,9 @@
       bg.className='cal-bar-bg'; bg.style.left=x0+'%'; bg.style.width=w+'%';
       track.appendChild(bg);
       var fill = document.createElement('div');
-      fill.className='cal-bar-fill'; fill.style.left=x0+'%'; fill.style.setProperty('--w',(w*d.avance)+'%');
+      // La barra se rellena entera: el tramo sin color daba la impresión de que
+      // no se estaba trabajando. El avance real se lee en el % de debajo.
+      fill.className='cal-bar-fill'; fill.style.left=x0+'%'; fill.style.setProperty('--w', w+'%');
       track.appendChild(fill);
       var pctLabel = document.createElement('div');
       pctLabel.className='cal-pct'; pctLabel.style.left=x0+'%'; pctLabel.textContent=Math.round(d.avance*100)+'%';
