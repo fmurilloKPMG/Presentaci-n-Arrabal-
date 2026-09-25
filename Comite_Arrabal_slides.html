@@ -423,8 +423,7 @@
   }
   .slide.in .cal-open{transform:scaleX(1);}
   .cal-row.activo .cal-open-lbl{
-    font-weight:500; font-size:10.5px; line-height:1.4; color:var(--text-low);
-    max-width:min(46%, 230px); z-index:8;
+    font-weight:500; font-size:11px; color:var(--text-low); white-space:nowrap; z-index:8;
   }
   /* que el texto tape la línea del comité en vez de quedar detrás */
   .cal-row.activo .cal-open-lbl::before{
@@ -987,7 +986,7 @@
       track.appendChild(open);
       var openLbl = document.createElement('div');
       openLbl.className='cal-pct cal-open-lbl'; openLbl.style.left=ax0+'%';
-      openLbl.textContent='Desde septiembre · fecha de finalización por confirmar';
+      openLbl.textContent='Fin por confirmar';
       track.appendChild(openLbl);
     } else if(d.mesAprox){
       var mx0 = pct(d.mesAprox[0]), mx1 = pct(d.mesAprox[1]);
