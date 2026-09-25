@@ -431,10 +431,12 @@
     background:repeating-linear-gradient(135deg, rgba(0,51,141,.18) 0 6px, rgba(0,51,141,.05) 6px 12px);
     border:1px dashed rgba(0,51,141,.35); border-right:none;
   }
+  /* punta de flecha con esquinas redondeadas (un triángulo hecho con border no
+     admite redondeo); la opacidad va en el grupo para que trazo y relleno no
+     se oscurezcan al solaparse */
   .cal-bar-trans::after{
-    content:''; position:absolute; right:0; top:50%; transform:translateY(-50%);
-    border-top:6.5px solid transparent; border-bottom:6.5px solid transparent;
-    border-left:10px solid rgba(0,51,141,.38);
+    content:''; position:absolute; right:0; top:50%; width:11px; height:13px; transform:translateY(-50%);
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 13'%3E%3Cg opacity='.42'%3E%3Cpath d='M2 2 L9 6.5 L2 11 Z' fill='%2300338D' stroke='%2300338D' stroke-width='2.6' stroke-linejoin='round'/%3E%3C/g%3E%3C/svg%3E") center / contain no-repeat;
   }
   .cal-row.activo .cal-pct-trans{font-weight:500; font-style:italic; color:var(--text-low); font-size:10.5px;}
 
@@ -477,8 +479,8 @@
   .legend-trans::before{content:''; position:absolute; left:0; right:7px; top:2px; height:6px; box-sizing:border-box;
     border-radius:3px 0 0 3px; border:1px dashed rgba(0,51,141,.4); border-right:none;
     background:repeating-linear-gradient(135deg, rgba(0,51,141,.3) 0 4px, rgba(0,51,141,.08) 4px 8px);}
-  .legend-trans::after{content:''; position:absolute; right:0; top:50%; transform:translateY(-50%);
-    border-top:5px solid transparent; border-bottom:5px solid transparent; border-left:7px solid rgba(0,51,141,.4);}
+  .legend-trans::after{content:''; position:absolute; right:0; top:50%; width:8px; height:10px; transform:translateY(-50%);
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 13'%3E%3Cg opacity='.45'%3E%3Cpath d='M2 2 L9 6.5 L2 11 Z' fill='%2300338D' stroke='%2300338D' stroke-width='2.6' stroke-linejoin='round'/%3E%3C/g%3E%3C/svg%3E") center / contain no-repeat;}
   .legend-swatch{width:18px; height:7px; border-radius:4px;}
 
   /* ── Comentarios ── */
